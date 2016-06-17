@@ -1,0 +1,42 @@
+fields:
+    title:
+        label: rbin.shop::lang.forms.title
+    toolbar:
+        type: partial
+        path: $/rbin/shop/partials/_form_toolbar.htm
+        cssClass: collapse-visible
+tabs:
+    stretch: true
+    fields:
+        description:
+            tab: rbin.shop::lang.forms.description
+            type: markdown
+            mode: split
+            size: huge
+            stretch: true
+        #rbin_shop_rules:
+        #    tab: rbin.shop::lang.rules.label
+        #    type: rules
+        #    size: huge
+secondaryTabs:
+    fields:
+        show:
+            tab: rbin.shop::lang.settings.label
+            label: rbin.shop::lang.forms.show
+            commentAbove: rbin.shop::lang.forms.show_comment
+            type: checkbox
+            required: false
+            default: true
+        is_filter:
+            tab: rbin.shop::lang.settings.label
+            label: rbin.shop::lang.features.filter
+            commentAbove: rbin.shop::lang.features.filter_comment
+            type: checkbox
+            required: false
+            default: true
+        rbin_shop_categories:
+            tab: rbin.shop::lang.categories.label
+            type: relation
+            nameFrom: title
+            descriptionFrom: meta_description
+            emptyOption: rbin.shop::lang.forms.empty

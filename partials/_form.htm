@@ -1,0 +1,54 @@
+<?php Block::put('breadcrumb'); ?>
+<ul>
+	<li><a href="<?= Backend::url("rbin/shop/{$this->name}"); ?>"><?= trans("rbin.shop::lang.{$this->name}.label"); ?></a></li>
+	<li><?= trans($this->pageTitle); ?></li>
+</ul>
+<?php Block::endPut(); ?>
+<?php if (!$this->fatalError) : ?>
+	<?php Block::put('form-contents'); ?>
+		<div class="layout-row min-size">
+			<?= $this->formRenderOutsideFields(); ?>
+		</div>
+		<div class="layout-row">
+			<?= $this->formRenderPrimaryTabs(); ?>
+		</div>
+	<?php Block::endPut(); ?>
+	<?php Block::put('form-sidebar'); ?>
+		<?= $this->formRenderSecondaryTabs(); ?>
+	<?php Block::endPut(); ?>
+	<?php Block::put('body'); ?>
+		<?= Form::open([
+			'class'=>'layout fancy-layout responsive-sidebar stretch',
+			'data-change-monitor' => 'true',
+			'data-window-close-confirm' => trans('rbin.shop::lang.forms.confirm'),
+			'id' => 'post-form'
+		]); ?>
+			<div class="layout-cell">
+				<div class="layout">
+					<div class="control-breadcrumb breadcrumb-flush">
+						<?= Block::placeholder('breadcrumb'); ?>
+					</div>
+					<?= Block::placeholder('form-contents') ?>
+				</div>
+			</div>
+			<div class="layout-cell width-300 form-sidebar control-scrollpanel">
+				<div class="layout-relative">
+					<div class="layout-absolute">
+						<div class="control-scrollbar" data-control="scrollbar">
+							<?= Block::placeholder('form-sidebar') ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		<?= Form::close(); ?>
+	<?php Block::endPut(); ?>
+<?php else : ?>
+	<div class="panel panel-default" id="form-message">
+		<p class="flash-message static error"><?= e($this->fatalError); ?></p>
+		<p>
+			<a data-dismiss="popup" href="<?= Backend::url("rbin/shop/{$this->name}"); ?>" class="btn btn-default">
+				<?= trans('rbin.shop::lang.forms.return'); ?>
+			</a>
+		</p>
+	</div>
+<?php endif;

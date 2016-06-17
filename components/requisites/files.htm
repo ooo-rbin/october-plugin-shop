@@ -1,0 +1,17 @@
+{% set files = __SELF__.files %}
+<label>Прикрепленные файлы</label>
+{% for file in files %}
+	{% partial __SELF__ ~ "::file" file=file %}
+{% endfor %}
+<span class="input-group">
+	<span class="input-group-addon" style="padding: 0 0.5em;">
+		<input type="file" name="file" style="width: 300px;">
+	</span>
+	<input type="text" class="form-control" name="title" placeholder="Описание">
+	<span class="input-group-btn">
+		<button type="submit" class="btn btn-default" name="action" value="fileAppend">
+			<i class="fa fa-plus text-success"></i>
+		</button>
+	</span>
+</span>
+<span class="help-block">Добавите здесь карточку предприятия, довернность и т.д.</span>

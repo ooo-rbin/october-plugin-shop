@@ -1,0 +1,5 @@
+title: rbin.shop::lang.payments.reorder
+nameFrom: title
+modelClass: RBIn\Shop\Models\Payment
+toolbar:
+    buttons: reorder_toolbar

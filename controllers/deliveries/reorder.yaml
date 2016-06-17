@@ -1,0 +1,5 @@
+title: rbin.shop::lang.deliveries.reorder
+nameFrom: title
+modelClass: RBIn\Shop\Models\Delivery
+toolbar:
+    buttons: reorder_toolbar

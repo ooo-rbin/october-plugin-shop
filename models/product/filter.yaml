@@ -1,0 +1,6 @@
+scopes:
+    categories:
+        label: rbin.shop::lang.categories.label
+        modelClass: RBIn\Shop\Models\Category
+        nameFrom: title
+        scope: categories

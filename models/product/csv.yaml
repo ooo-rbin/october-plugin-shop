@@ -1,0 +1,37 @@
+columns:
+    slug:
+        label: rbin.shop::lang.forms.slug
+        type: text
+    show:
+        label: rbin.shop::lang.forms.show
+        type: checkbox
+    title:
+        label: rbin.shop::lang.products.name
+        type: text
+    annotation:
+        label: rbin.shop::lang.forms.annotation
+        type: text
+    description:
+        label: rbin.shop::lang.forms.description
+        type: text
+    keywords:
+        label: rbin.shop::lang.forms.keywords
+        type: text
+    meta_title:
+        label: rbin.shop::lang.forms.meta_title
+        type: text
+    meta_description:
+        label: rbin.shop::lang.forms.meta_description
+        type: text
+    categories:
+        label: rbin.shop::lang.categories.name
+        type: text
+    variant_title:
+        label: rbin.shop::lang.variants.name
+        type: text
+    variant_balance:
+        label: rbin.shop::lang.variants.balance
+        type: number
+    variant_cost:
+        label: rbin.shop::lang.variants.cost
+        type: number

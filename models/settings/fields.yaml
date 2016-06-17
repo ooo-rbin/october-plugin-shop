@@ -1,0 +1,29 @@
+fields:
+    requisites:
+        label: rbin.shop::lang.settings.requisites.label
+        type: repeater
+        prompt: rbin.shop::lang.forms.add
+        form:
+            fields:
+                title:
+                    label: rbin.shop::lang.settings.requisites.title
+                    required: true
+                    span: left
+                code:
+                    label: rbin.shop::lang.forms.code
+                    required: true
+                    span: right
+                rule:
+                    label: rbin.shop::lang.settings.requisites.rule
+                    span: left
+                comment:
+                    label: rbin.shop::lang.settings.requisites.comment
+                    span: right
+                area:
+                    label: rbin.shop::lang.settings.requisites.area
+                    type: checkbox
+                    span: left
+                list:
+                    label: rbin.shop::lang.settings.requisites.list
+                    type: checkbox
+                    span: right

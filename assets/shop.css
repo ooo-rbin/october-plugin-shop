@@ -1,0 +1,148 @@
+@charset "UTF-8";
+
+a[href="#clear"] {
+	display: none !important;
+}
+
+.has-feedback > .control-popover > div {
+	border: solid 1px #949ea6;
+	padding: 0.5em;
+	margin: -0.5em;
+}
+
+div.input-group {
+	width: 100%;
+}
+
+a.form-control-feedback {
+	top: 0 !important;
+	z-index: 2;
+	text-decoration: none !important;
+}
+
+.compact-container #Form-outsideTabs {
+	background: #7F8C8D;
+}
+
+#Form-secondaryTabs .tab-content {
+	background: transparent;
+	padding: 15px;
+	display: block;
+}
+
+#Form-primaryTabs .tab-pane {
+	padding: 1em;
+}
+
+#Form-primaryTabs .tab-pane.layout-cell {
+	padding: 0;
+}
+
+#Form-primaryContainer,
+#Form-primaryContainer > .layout-row {
+	height: 100%;
+}
+#Form-primaryTabs {
+	margin: 0;
+}
+
+#Form-primaryContainer .padded-pane {
+	padding: 15px;
+}
+
+#Form-primaryContainer .control-toolbar.editor-toolbar {
+	background: #FAFAFA;
+}
+
+#Form-primaryContainer .field-markdowneditor,
+#Form-primaryContainer .field-markdowneditor.editor-focus {
+	border: 1px solid #FAFAFA;
+}
+
+.relation-widget label {
+	width: 100%;
+}
+
+.relation-widget label:before,
+.relation-widget label:before {
+	top: 0;
+}
+
+.fancy-layout .padding-top {
+	padding-top: 15px;
+}
+
+#Form-outsideTabs .loading-indicator {
+	padding-left: 50px;
+	margin-top: 11px;
+	background: #7F8C8D;
+}
+
+#Form-outsideTabs .loading-indicator > span {
+	left: 5px;
+	top: 50%;
+}
+
+#Form-primaryTabs .relation-toolbar .control-toolbar {
+	padding: 15px;
+}
+
+#Form-primaryTabs .tab-pane.layout-cell .form-group {
+	padding: 18px 23px;
+}
+
+#Form-primaryTabs .tab-pane.layout-cell .form-group.span-right {
+	padding-left: 0;
+}
+
+#Form-primaryTabs .tab-pane.layout-cell .form-group.span-left {
+	padding-right: 0;
+}
+
+#Form-primaryTabs .tab-pane.layout-cell .form-group.layout-relative {
+	padding: 0;
+}
+
+fieldset > .input-group:last-of-type {
+	border-top: solid 2px #D5D9D8;
+	padding-top: 15px;
+	margin-top: 15px;
+}
+
+fieldset > .input-group:last-of-type:before {
+	content: '\f067';
+	font-family: FontAwesome;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: inherit;
+	-webkit-font-smoothing: antialiased;
+	display: block;
+	width: 1.2em;
+	height: 1.2em;
+	line-height: 1.2em;
+	vertical-align: baseline;
+	background-image: none;
+	background-position: 0% 0%;
+	background-repeat: repeat;
+	position: absolute;
+	top: -1px;
+	left: 50%;
+	margin-left: -0.6em;
+	margin-top: -0.6em;
+	background: #F9F9F9;
+	color: #D5D9D8;
+	text-align: center;
+	border-radius: 50%;
+	border: solid 2px #D5D9D8;
+	font-size: 18px;
+}
+
+#form-message {
+	margin-top: -15px;
+}
+
+.nav > [data-class="latest-in-group"] {
+	border-bottom: solid 1px #2B3E50;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}

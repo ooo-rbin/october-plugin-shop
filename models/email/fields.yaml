@@ -1,0 +1,24 @@
+fields:
+    subject:
+        label: rbin.shop::lang.forms.title
+        required: true
+        type: text
+        span: left
+    recipients:
+        label: rbin.shop::lang.index.message.recipients.label
+        required: true
+        type: dropdown
+        span: right
+    message:
+        label: rbin.shop::lang.forms.text
+        required: true
+        type: markdown
+        size: huge
+        mode: split
+    attachments:
+        label: rbin.shop::lang.index.message.attachments
+        type: repeater
+        prompt: rbin.shop::lang.forms.add
+        form:
+            fields:
+                type: mediafinder

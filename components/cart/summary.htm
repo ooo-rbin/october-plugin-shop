@@ -1,0 +1,51 @@
+{% set cart = __SELF__.cart %}
+{% set options = __SELF__.options %}
+{% if cart.count > 0 %}
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr class="danger">
+				<th>{{ 'rbin.shop::lang.frontend.cart.product'|trans }}</th>
+				<th>{{ 'rbin.shop::lang.frontend.cart.amount'|trans }}</th>
+				<th>{{ 'rbin.shop::lang.frontend.cart.cost'|trans }}</th>
+				<th>{{ 'rbin.shop::lang.frontend.cart.summ'|trans }}</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for variant in cart %}
+				<tr>
+					<td title="{{ 'rbin.shop::lang.frontend.cart.options'|trans }}" data-hover="popover" title="{{ 'rbin.shop::lang.frontend.cart.options'|trans }}">
+						{{ form_ajax('onRemoveFromCart', { class: 'pull-left' }) }}
+							<input type="hidden" name="variant" value="{{ variant.variant_id }}">
+							<button class="btn btn-danger" type="submit" title="{{ 'rbin.shop::lang.forms.remove'|trans }}"><i class="fa fa-times" aria-hidden="true"></i></button>
+						{{ form_close() }}
+						<b style="margin-left: 3em; display: block;">{{ variant.title|escape }}</b>
+						<table class="table popover-content hidden">
+							{% for option in options[variant.product_id] %}
+								<tr>
+									<th class="text-right">{{ option.rbin_shop_features.title }}</th>
+									<td>{{ option.value }}</td>
+								</tr>
+							{% endfor %}
+						</table>
+					</td>
+					<td class="form-group">
+						{{ form_ajax('onChangeAmountInCart', { class: 'form-horizontal' }) }}
+							<input type="hidden" name="variant" value="{{ variant.variant_id }}">
+							<input class="form-control" type="number" step="1" min="1" name="amount" value="{{ variant.amount }}" onchange="jQuery(this.form).request()">
+						{{ form_close() }}
+					</td>
+					<td class="text-right">{{ 'rbin.shop::lang.forms.cent'|trans|format(variant.cost|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;'))|raw }}</td>
+					<td class="text-right">{{ 'rbin.shop::lang.forms.cent'|trans|format((variant.cost*variant.amount)|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;'))|raw }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr class="danger">
+				<th colspan="3" class="text-right">Итого</th>
+				<td class="text-right">{{ 'rbin.shop::lang.forms.cent'|trans|format(__SELF__.totalCost|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;'))|raw }}</td>
+			</tr>
+		</tfoot>
+	</table>
+{% else %}
+	<p>{{ 'rbin.shop::lang.frontend.cart.empty'|trans }}</p>
+{% endif %}

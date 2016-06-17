@@ -1,0 +1,29 @@
+<div data-control="toolbar">
+	<button
+		type="button"
+		data-control="popup"
+		data-size="huge"
+		data-handler="onRelationButtonAdd"
+		class="btn btn-sm btn-primary oc-icon-plus">
+		<?= trans('rbin.shop::lang.forms.add'); ?>
+	</button>
+	<button
+		type="button"
+		class="btn btn-sm btn-default oc-icon-minus"
+		onclick="$(this).data('request-data', {
+			checked: $('#<?= $this->relationGetId('view'); ?> .control-list').listWidget('getChecked')
+		})"
+		disabled="disabled"
+		data-request="onRelationButtonRemove"
+		data-trigger-action="enable"
+		data-trigger="#<?= $this->relationGetId('view'); ?> .control-list .list-checkbox input[type=checkbox]"
+		data-trigger-condition="checked"
+		data-stripe-load-indicator>
+		<?= trans('rbin.shop::lang.forms.remove_selected'); ?>
+	</button>
+	<a
+		href="<?= Backend::url("rbin/shop/features/reorder/{$formModel->{$formModel::KEY}}"); ?>"
+		class="btn btn-sm btn-default oc-icon-sort">
+		<?= trans('rbin.shop::lang.features.reorder'); ?>
+	</a>
+</div>

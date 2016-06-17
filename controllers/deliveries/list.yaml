@@ -1,0 +1,12 @@
+title: rbin.shop::lang.deliveries.label
+modelClass: RBIn\Shop\Models\Delivery
+recordUrl: rbin/shop/deliveries/update/:id
+noRecordsMessage: rbin.shop::lang.forms.empty
+showSorting: true
+showCheckboxes: true
+showSetup: true
+list: $/rbin/shop/models/delivery/columns.yaml
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: rbin.shop::lang.forms.search

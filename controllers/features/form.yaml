@@ -1,0 +1,17 @@
+name: rbin.shop::lang.features.label
+modelClass: RBIn\Shop\Models\Feature
+defaultRedirect: rbin/shop/features
+form: $/rbin/shop/models/feature/fields.yaml
+create:
+    title: rbin.shop::lang.features.create
+    redirect: rbin/shop/features/update/:id
+    redirectClose: rbin/shop/features
+    flashSave: rbin.shop::lang.forms.save_success
+update:
+    title: rbin.shop::lang.features.update
+    redirect: rbin/shop/features/update/:id
+    redirectClose: rbin/shop/features
+    flashSave: rbin.shop::lang.forms.save_success
+    flashDelete: rbin.shop::lang.forms.delete_success
+preview:
+    title: rbin.shop::lang.features.preview

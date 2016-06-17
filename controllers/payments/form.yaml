@@ -1,0 +1,17 @@
+name: rbin.shop::lang.payments.label
+modelClass: RBIn\Shop\Models\Payment
+defaultRedirect: rbin/shop/payments
+form: $/rbin/shop/models/payment/fields.yaml
+create:
+    title: rbin.shop::lang.payments.create
+    redirect: rbin/shop/payments/update/:id
+    redirectClose: rbin/shop/payments
+    flashSave: rbin.shop::lang.forms.save_success
+update:
+    title: rbin.shop::lang.payments.update
+    redirect: rbin/shop/payments/update/:id
+    redirectClose: rbin/shop/payments
+    flashSave: rbin.shop::lang.forms.save_success
+    flashDelete: rbin.shop::lang.forms.delete_success
+preview:
+    title: rbin.shop::lang.payments.preview

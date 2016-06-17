@@ -1,0 +1,16 @@
+title: rbin.shop::lang.features.label
+modelClass: RBIn\Shop\Models\Feature
+recordUrl: rbin/shop/features/update/:id
+noRecordsMessage: rbin.shop::lang.forms.empty
+showSorting: true
+showCheckboxes: true
+showSetup: true
+list: $/rbin/shop/models/feature/columns.yaml
+filter: $/rbin/shop/models/feature/filter.yaml
+defaultSort:
+    column: order
+    direction: asc
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: rbin.shop::lang.forms.search

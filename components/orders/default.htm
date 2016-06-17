@@ -1,0 +1,35 @@
+{% set orders = __SELF__.orders %}
+{% if orders.total > 0 %}
+	{% for order in orders %}
+		<div class="panel panel-danger">
+			<div class="panel-heading">
+				<a href="{{ __SELF__.url(order.slug) }}">
+					<span class="badge">{{ order.trans('status') }}</span>
+					<span class="badge">{{ order.trans('payment') }}</span>
+					<b>№ {{ order.id }} от {{ order.created_at|date('d.m.Y') }}</b>
+				</a>
+			</div>
+		</div>
+	{% endfor %}
+	{% if totalPages > 1 %}
+		<ul class="pagination">
+			{% if pages.currentPage > 1 %}
+				<li>
+					<a href="{{ pages.url(pages.currentPage-1) }}">&larr; {{ 'rbin.shop::lang.frontend.pagination.newer'|trans }}</a>
+				</li>
+			{% endif %}
+			{% for page in 1..totalPages %}
+				<li class="{{ pages.currentPage == page ? 'active' : null }}">
+					<a href="{{ pages.url(page) }}">{{ page }}</a>
+				</li>
+			{% endfor %}
+			{% if totalPages  > pages.currentPage %}
+				<li>
+					<a href="{{ pages.url(pages.currentPage+1) }}">{{ 'rbin.shop::lang.frontend.pagination.older'|trans }} &rarr;</a>
+				</li>
+			{% endif %}
+		</ul>
+	{% endif %}
+{% else %}
+	{{ 'rbin.shop::lang.forms.empty'|trans }}
+{% endif %}

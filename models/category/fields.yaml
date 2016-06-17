@@ -1,0 +1,71 @@
+fields:
+    title:
+        label: rbin.shop::lang.forms.title
+        span: left
+    slug:
+        label: rbin.shop::lang.forms.slug
+        span: right
+        preset:
+            field: title
+            type: slug
+    toolbar:
+        type: partial
+        path: $/rbin/shop/partials/_form_toolbar.htm
+        cssClass: collapse-visible
+tabs:
+    stretch: true
+    fields:
+        description:
+            tab: rbin.shop::lang.forms.description
+            type: markdown
+            mode: split
+            stretch: true
+        annotation:
+            tab: rbin.shop::lang.forms.annotation
+            type: markdown
+            mode: split
+            required: false
+            stretch: true
+        rbin_shop_products:
+            tab: rbin.shop::lang.products.label
+            type: partial
+            path: products
+            stretch: true
+        rbin_shop_features:
+            tab: rbin.shop::lang.features.label
+            type: partial
+            path: features
+            stretch: true
+        #rbin_shop_rules:
+        #    tab: rbin.shop::lang.rules.label
+        #    type: rules
+        #    size: huge
+        #    stretch: true
+secondaryTabs:
+    fields:
+        picture:
+            tab: rbin.shop::lang.settings.label
+            label: rbin.shop::lang.forms.picture
+            type: mediafinder
+            mode: image
+        show:
+            tab: rbin.shop::lang.settings.label
+            label: rbin.shop::lang.forms.show
+            commentAbove: rbin.shop::lang.forms.show_comment
+            type: checkbox
+            required: false
+            default: true
+        meta_title:
+            tab: rbin.shop::lang.forms.meta
+            label: rbin.shop::lang.forms.meta_title
+            required: false
+        meta_description:
+            tab: rbin.shop::lang.forms.meta
+            label: rbin.shop::lang.forms.meta_description
+            type: textarea
+            size: small
+            required: false
+        keywords:
+            tab: rbin.shop::lang.forms.meta
+            label: rbin.shop::lang.forms.keywords
+            required: false

@@ -1,0 +1,25 @@
+fields:
+    product_id:
+        label: rbin.shop::lang.products.name
+        type: dropdown
+        span: left
+    variant_id:
+        label: rbin.shop::lang.variants.name
+        type: dropdown
+        dependsOn: product_id
+        span: right
+    cost:
+        label: rbin.shop::lang.variants.cost
+        type: number
+        dependsOn: variant_id
+        span: left
+        attributes:
+            min: 0
+    amount:
+        label: rbin.shop::lang.variants.balance
+        type: number
+        min: 1
+        span: right
+        attributes:
+            min: 1
+            step: 1

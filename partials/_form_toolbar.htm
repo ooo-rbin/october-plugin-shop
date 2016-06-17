@@ -1,0 +1,52 @@
+<div class="form-buttons padding-top loading-indicator-container">
+	<button
+		type="submit"
+		data-request="onSave"
+		data-request-data="redirect:<?= (isset($model->{$model::KEY})) ? 0 : 1; ?>"
+		data-hotkey="ctrl+s, cmd+s"
+		data-load-indicator="<?= trans('rbin.shop::lang.forms.saving'); ?>"
+		data-request-before-update="$el.trigger('unchange.oc.changeMonitor')"
+		class="btn btn-primary oc-icon-floppy-o">
+		<?= trans('rbin.shop::lang.forms.save'); ?>
+	</button>
+	<button
+		type="submit"
+		data-request="onSave"
+		data-request-data="close:1"
+		data-hotkey="ctrl+enter, cmd+enter"
+		data-load-indicator="<?= trans('rbin.shop::lang.forms.saving'); ?>"
+		data-request-before-update="$el.trigger('unchange.oc.changeMonitor')"
+		class="btn btn-default oc-icon-times">
+		<?= trans('rbin.shop::lang.forms.save_close'); ?>
+	</button>
+	<?php if ($this->formGetContext() == 'update') : ?>
+		<button
+			type="button"
+			data-request="onDelete"
+			data-load-indicator="<?= trans('rbin.shop::lang.forms.deleting'); ?>"
+			data-request-confirm="<?= trans('rbin.shop::lang.forms.delete_confirm'); ?>"
+			data-request-before-update="$el.trigger('unchange.oc.changeMonitor')"
+			class="btn btn-danger oc-icon-trash-o">
+			<?= trans('rbin.shop::lang.forms.delete'); ?>
+		</button>
+	<?php endif; ?>
+	<a
+		href="<?= Backend::url("rbin/shop/{$this->name}/create"); ?>"
+		class="btn btn-primary oc-icon-file pull-right">
+		<?= trans('rbin.shop::lang.forms.create_new'); ?>
+	</a>
+	<a
+		href="<?= Backend::url("rbin/shop/{$this->name}"); ?>"
+		class="btn btn-primary oc-icon-undo pull-right">
+		<?= trans('rbin.shop::lang.forms.return'); ?>
+	</a>
+	<?php if ($this->formGetContext() == 'update') : ?>
+		<a
+			href="<?= Backend::url("rbin/shop/{$this->name}/preview/{$formModel->{$formModel::KEY}}"); ?>"
+			target="_blank"
+			class="btn btn-primary oc-icon-crosshairs pull-right"
+			data-control="preview-button">
+			<?= trans('rbin.shop::lang.forms.preview'); ?>
+		</a>
+	<?php endif; ?>
+</div>

@@ -1,0 +1,26 @@
+<?php Block::put('breadcrumb'); ?>
+	<ul>
+		<li><a href="<?= Backend::url("rbin/shop/{$this->name}"); ?>"><?= trans("rbin.shop::lang.{$this->name}.label"); ?></a></li>
+		<li><?= trans($this->pageTitle); ?></li>
+	</ul>
+<?php Block::endPut(); ?>
+<?= Form::open(['class' => 'layout']); ?>
+	<div class="layout-row">
+		<?= $this->$csvForm(); ?>
+	</div>
+	<div class="form-buttons">
+		<button
+			type="submit"
+			data-control="popup"
+			data-handler="<?= $csvHandler; ?>"
+			data-keyboard="false"
+			class="btn btn-primary">
+			<?= trans('rbin.shop::lang.forms.do'); ?>
+		</button>
+		<a
+			href="<?= Backend::url("rbin/shop/{$this->name}"); ?>"
+			class="btn btn-primary oc-icon-undo pull-right">
+			<?= trans('rbin.shop::lang.forms.return'); ?>
+		</a>
+	</div>
+<?= Form::close(); ?>

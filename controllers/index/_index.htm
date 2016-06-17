@@ -1,0 +1,73 @@
+<div class="control-tabs primary-tabs" data-control="tab">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#statistics"><?= trans('rbin.shop::lang.index.processing'); ?></a></li>
+		<li><a href="#delivery"><?= trans('rbin.shop::lang.index.message.label'); ?></a></li>
+	</ul>
+	<div class="tab-content">
+		<div id="statistics" class="tab-pane active">
+			<div class="scoreboard">
+				<div data-control="toolbar">
+					<div class="scoreboard-item title-value">
+						<h4><?= trans('rbin.shop::lang.index.orders.title'); ?></h4>
+						<p><?= $ordersTotal; ?></p>
+						<p class="description"><?= trans('rbin.shop::lang.index.orders.description'); ?></p>
+					</div>
+					<div class="scoreboard-item control-chart" data-control="chart-pie">
+						<ul>
+							<?php foreach ($ordersByStatus as $data) : ?>
+								<li><?= $data['title']; ?> <span><?= $data['count']; ?></span></li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+					<div class="scoreboard-item control-chart" data-control="chart-pie">
+						<ul>
+							<?php foreach ($ordersByPayment as $data) : ?>
+								<li><?= $data['title']; ?> <span><?= $data['count']; ?></span></li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+					<div class="scoreboard-item title-value">
+						<h4><?= trans('rbin.shop::lang.index.customer.title'); ?></h4>
+						<p class="oc-icon-user"><a href="<?= Backend::url("rainlab/user/users/update/${customer['id']}"); ?>"><?= e($customer['name']); ?></a> [<a href="mailto:<?= $customer['email']; ?>"><?= $customer['email']; ?></a>]</p>
+						<p class="description"><?= sprintf(trans('rbin.shop::lang.index.customer.description'), sprintf(trans('rbin.shop::lang.forms.cent'), number_format(doubleval($customer['sum']), 2, trans('rbin.shop::lang.forms.currency'), '&nbsp;'))); ?></p>
+					</div>
+					<div class="scoreboard-item title-value">
+						<h4><?= trans('rbin.shop::lang.index.product.title'); ?></h4>
+						<p class="oc-icon-cart-arrow-down"><a href="<?= Backend::url("rbin/shop/products/update/${product['product_id']}"); ?>"><?= e($product['title']); ?></a></p>
+						<p class="description"><?= sprintf(trans('rbin.shop::lang.index.product.description'), intval($product['sum'])); ?></p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-md-6">
+					<h3><?= trans('rbin.shop::lang.index.сapitalization.cost'); ?></h3>
+					<div class="control-chart wrap-legend" data-control="chart-bar" data-height="300" data-full-width="1">
+						<ul>
+							<?php foreach ($ordersInTime as $data) : ?>
+								<li><?= $data['date']; ?> <span><?= $data['total_cost']; ?></span></li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-6">
+					<h3><?= trans('rbin.shop::lang.index.сapitalization.payment'); ?></h3>
+					<div class="control-chart wrap-legend" data-control="chart-bar" data-height="300" data-full-width="1">
+						<ul>
+							<?php foreach ($ordersInTime as $data) : ?>
+								<li><?= $data['date']; ?> <span><?= $data['total_payment']; ?></span></li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="delivery" class="tab-pane">
+			<?= Form::open(['request' => 'sendMail']); ?>
+				<?= $this->widget->form->render(['useContainer' => true, 'section' => 'outside']); ?>
+				<p class="form-buttons">
+					<button type="submit" class="btn btn-danger"><?= trans('rbin.shop::lang.index.message.send'); ?></button>
+				</p>
+			<?= Form::close(); ?>
+		</div>
+	</div>
+</div>

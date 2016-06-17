@@ -1,0 +1,12 @@
+title: rbin.shop::lang.payments.label
+modelClass: RBIn\Shop\Models\Payment
+recordUrl: rbin/shop/payments/update/:id
+noRecordsMessage: rbin.shop::lang.forms.empty
+showSorting: true
+showCheckboxes: true
+showSetup: true
+list: $/rbin/shop/models/payment/columns.yaml
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: rbin.shop::lang.forms.search

@@ -1,0 +1,13 @@
+columns:
+    title:
+        label: rbin.shop::lang.forms.title
+        type: text
+        serchable: true
+    amount:
+        label: rbin.shop::lang.variants.balance
+        type: text
+        serchable: true
+    cost:
+        label: rbin.shop::lang.variants.cost
+        type: text
+        serchable: true

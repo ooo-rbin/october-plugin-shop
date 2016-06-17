@@ -1,0 +1,9 @@
+<button
+	type="button"
+	id="<?= $uniqid = uniqid('lamp_'); ?>"
+	class="btn btn-xs btn-<?= ($value) ? 'success' : 'default'; ?> oc-icon-lightbulb-o"
+	data-request-data="'id': '<?= $record->{$record::KEY}; ?>', 'field': '<?= $column->columnName; ?>', 'model': '<?= str_replace('\\', '\\\\', get_class($record)); ?>', 'update': 'lamp'"
+	data-request="onSwitching"
+	data-request-success="$(this).parent().html(data.result);">
+	<?= trans(($value) ? 'rbin.shop::lang.forms.switch_on' : 'rbin.shop::lang.forms.switch_off'); ?>
+</button>

@@ -1,0 +1,17 @@
+name: rbin.shop::lang.deliveries.label
+modelClass: RBIn\Shop\Models\Delivery
+defaultRedirect: rbin/shop/deliveries
+form: $/rbin/shop/models/delivery/fields.yaml
+create:
+    title: rbin.shop::lang.deliveries.create
+    redirect: rbin/shop/deliveries/update/:id
+    redirectClose: rbin/shop/deliveries
+    flashSave: rbin.shop::lang.forms.save_success
+update:
+    title: rbin.shop::lang.deliveries.update
+    redirect: rbin/shop/deliveries/update/:id
+    redirectClose: rbin/shop/deliveries
+    flashSave: rbin.shop::lang.forms.save_success
+    flashDelete: rbin.shop::lang.forms.delete_success
+preview:
+    title: rbin.shop::lang.deliveries.preview

@@ -1,0 +1,18 @@
+columns:
+    show:
+        label: rbin.shop::lang.forms.show
+        type: partial
+        path: $/rbin/shop/partials/_lamp.htm
+        clickable: false
+        cssClass: lamp
+        width: 200px
+    is_filter:
+        label: rbin.shop::lang.features.filter
+        type: partial
+        path: $/rbin/shop/partials/_lamp.htm
+        clickable: false
+        cssClass: lamp
+        width: 200px
+    title:
+        label: rbin.shop::lang.forms.title
+        serchable: true

@@ -1,0 +1,20 @@
+1.0.1:
+    - Первая версия.
+    - create_categories_table.php
+    - create_products_table.php
+    - create_categories_products_relation.php
+    - create_variants_table.php
+    - create_features_table.php
+    - add_features_type_set.php
+    - create_categories_features_relation.php
+    - create_options_table.php
+    - create_rules_table.php
+    - add_rules_applicability_set.php
+    - create_ruled_sources_relation.php
+    - create_deliveries_table.php
+    - create_payments_table.php
+    - create_orders_table.php
+    - create_ordered_variants_table.php
+    - create_ordered_rules_table.php
+    - create_requisites_table.php
+    - seed_all_tables.php

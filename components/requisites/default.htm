@@ -1,0 +1,37 @@
+{% set requisites = __SELF__.requisites %}
+<div id="requisites-flash">{% partial __SELF__ ~ "::flash" flash=__SELF__.flash %}</div>
+{{ form_open({files: true}) }}
+	{% for requisite in requisites %}
+		<p class="form-group">
+			<label for="requisite_{{ requisite.code }}">{{ requisite.title }}</label>
+			{% if requisite.area %}
+				<textarea class="form-control" id="requisite_{{ requisite.code }}" name="requisites[{{ requisite.code }}]" rows="10">{{ requisite.value }}</textarea>
+			{% else %}
+				<input
+					type="text"
+					class="form-control"
+					id="requisite_{{ requisite.code }}"
+					name="requisites[{{ requisite.code }}]"
+					{% if requisite.value %}value="{{ requisite.value }}"{% endif %}
+					{% if requisite.rule %}pattern="{{ requisite.rule }}"{% endif %}
+					{% if requisite.list %}list="requisite_{{ requisite.code }}_list"{% endif %}
+					>
+				{% if requisite.list %}
+					<datalist id="requisite_{{ requisite.code }}_list">
+						{% for variant in requisite.variants %}
+							<option value="{{ variant }}">
+						{% endfor %}
+					</datalist>
+				{% endif %}
+			{% endif %}
+			<span class="help-block">{{ requisite.comment }}</span>
+		</p>
+	{% endfor %}
+	<p class="form-group" id="requisites-files">
+		{% partial __SELF__ ~ "::files" %}
+	</p>
+	<p class="form-group text-right">
+		<button type="submit" class="btn btn-danger" name="action" value="saveRequisites">{{ 'rbin.shop::lang.forms.save'|trans }}</button>
+	</p>
+{{ form_close() }}
+

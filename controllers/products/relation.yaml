@@ -1,0 +1,22 @@
+rbin_shop_variants:
+    label: ' '
+    deferredBinding: true
+    emptyMessage: rbin.shop::lang.forms.empty
+    view:
+        toolbarPartial: variants_toolbar
+        showSearch: true
+        showSorting: true
+        showCheckboxes: true
+        list: $/rbin/shop/models/variant/columns.yaml
+        form: $/rbin/shop/models/variant/fields.yaml
+        defaultSort:
+            column: order
+            direction: asc
+    manage:
+        name: rbin.shop::lang.variants.label
+        showSearch: true
+        showSorting: true
+        form: $/rbin/shop/models/variant/fields.yaml
+        defaultSort:
+            column: order
+            direction: asc

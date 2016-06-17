@@ -1,0 +1,45 @@
+rbin_shop_products:
+    label: ' '
+    deferredBinding: true
+    emptyMessage: rbin.shop::lang.forms.empty
+    view:
+        toolbarPartial: products_toolbar
+        showSearch: true
+        showSorting: true
+        showCheckboxes: true
+        recordUrl: rbin/shop/products/update/:id
+        list: $/rbin/shop/models/product/columns.yaml
+        defaultSort:
+            column: order
+            direction: asc
+    manage:
+        name: rbin.shop::lang.products.label
+        showSearch: true
+        showSorting: true
+        list: $/rbin/shop/models/product/columns.yaml
+        form: $/rbin/shop/models/product/fields.yaml
+        defaultSort:
+            column: order
+            direction: asc
+rbin_shop_features:
+    label: ' '
+    emptyMessage: rbin.shop::lang.forms.empty
+    view:
+        toolbarPartial: features_toolbar
+        showSearch: true
+        showSorting: true
+        showCheckboxes: true
+        recordUrl: rbin/shop/features/update/:id
+        list: $/rbin/shop/models/feature/columns.yaml
+        defaultSort:
+            column: order
+            direction: asc
+    manage:
+        name: rbin.shop::lang.features.label
+        showSearch: true
+        showSorting: true
+        list: $/rbin/shop/models/feature/columns.yaml
+        form: $/rbin/shop/models/feature/fields.yaml
+        defaultSort:
+            column: order
+            direction: asc

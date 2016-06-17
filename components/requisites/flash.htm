@@ -1,0 +1,9 @@
+{% set flash = __SELF__.flash %}
+{% for message in flash %}
+	<p class="alert alert-{{ message.class }}">
+		{{ message.text }}
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</p>
+{% endfor %}

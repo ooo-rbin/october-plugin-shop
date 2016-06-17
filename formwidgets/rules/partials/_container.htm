@@ -1,0 +1,18 @@
+<?php if ($this->previewMode): ?>
+	<div class="form-control"><?= e($value); ?></div>
+<?php else: ?>
+	<div
+		id="<?= $this->getId() ?>"
+		class="field-properties size-<?= $size ?> <?= $stretch?'layout-relative stretch':'' ?>"
+		data-control="properties"
+		data-refresh-handler="<?= $this->getEventHandler('onRefresh') ?>">
+		<div class="model-container">
+			<?php foreach ($value as $model) : ?>
+				<?php $this->renderModel($value); ?>
+			<?php endforeach; ?>
+		</div>
+		<menu type="context">
+			<menuitem label="Refresh" onclick="$(this).trigger('menu', [this.label]);"></menuitem>
+		</menu>
+	</div>
+<?php endif ?>

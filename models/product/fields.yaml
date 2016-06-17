@@ -1,0 +1,95 @@
+fields:
+    title:
+        label: rbin.shop::lang.forms.title
+        type: text
+        span: left
+    slug:
+        label: rbin.shop::lang.forms.slug
+        type: text
+        span: right
+        preset:
+            field: title
+            type: slug
+    toolbar:
+        type: partial
+        path: $/rbin/shop/partials/_form_toolbar.htm
+        cssClass: collapse-visible
+tabs:
+    stretch: true
+    fields:
+        description:
+            tab: rbin.shop::lang.forms.description
+            type: markdown
+            mode: split
+            size: huge
+            stretch: true
+        annotation:
+            tab: rbin.shop::lang.forms.annotation
+            type: markdown
+            mode: split
+            size: huge
+            stretch: true
+            required: false
+        options:
+            tab: rbin.shop::lang.products.options
+            type: repeater
+            prompt: rbin.shop::lang.forms.add
+            form:
+                fields:
+                    title:
+                        type: text
+                        span: left
+                    value:
+                        type: text
+                        span: right
+        rbin_shop_variants:
+            tab: rbin.shop::lang.variants.label
+            type: partial
+            path: variants
+            stretch: true
+        #rbin_shop_rules:
+        #    tab: rbin.shop::lang.rules.label
+        #    type: rules
+        #    size: huge
+        #    stretch: true
+secondaryTabs:
+    fields:
+        picture:
+            tab: rbin.shop::lang.settings.label
+            label: rbin.shop::lang.forms.picture
+            type: mediafinder
+            mode: image
+        show:
+            tab: rbin.shop::lang.settings.label
+            label: rbin.shop::lang.forms.show
+            commentAbove: rbin.shop::lang.forms.show_comment
+            type: checkbox
+            required: false
+            default: true
+        featured:
+            tab: rbin.shop::lang.settings.label
+            label: rbin.shop::lang.forms.featured
+            commentAbove: rbin.shop::lang.forms.featured_comment
+            type: checkbox
+            required: false
+            default: false
+        meta_title:
+            tab: rbin.shop::lang.forms.meta
+            label: rbin.shop::lang.forms.meta_title
+            required: false
+        meta_description:
+            tab: rbin.shop::lang.forms.meta
+            label: rbin.shop::lang.forms.meta_description
+            type: textarea
+            size: small
+            required: false
+        keywords:
+            tab: rbin.shop::lang.forms.meta
+            label: rbin.shop::lang.forms.keywords
+            required: false
+        rbin_shop_categories:
+            tab: rbin.shop::lang.categories.label
+            type: relation
+            nameFrom: title
+            descriptionFrom: meta_description
+            emptyOption: rbin.shop::lang.forms.empty

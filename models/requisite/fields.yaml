@@ -1,0 +1,8 @@
+fields:
+    code:
+        label: rbin.shop::lang.settings.requisites.title
+        type: dropdown
+        span: left
+    value:
+        label: rbin.shop::lang.forms.value
+        span: right

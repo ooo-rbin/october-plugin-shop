@@ -1,0 +1,5 @@
+<?php if (is_null($value)) : ?>
+	<?= trans('rbin.shop::lang.forms.null'); ?>
+<?php else : ?>
+	<a class="btn btn-xs btn-default oc-icon-user" href="<?= Backend::url('rainlab/user/users/update/' . $value->id); ?>"><?= e($value->name); ?> [<?= e($value->email); ?>]</a>
+<?php endif;

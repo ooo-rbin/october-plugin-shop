@@ -1,0 +1,14 @@
+fields:
+    title:
+        label: rbin.shop::lang.forms.title
+        type: text
+    balance:
+        label: rbin.shop::lang.variants.balance
+        commentAbove: rbin.shop::lang.variants.cost_comment
+        type: text
+        span: left
+    cost:
+        label: rbin.shop::lang.variants.cost
+        commentAbove: rbin.shop::lang.variants.cost_comment
+        type: text
+        span: right

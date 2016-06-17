@@ -1,0 +1,5 @@
+title: rbin.shop::lang.variants.reorder
+nameFrom: title
+modelClass: RBIn\Shop\Models\Variant
+toolbar:
+    buttons: reorder_toolbar

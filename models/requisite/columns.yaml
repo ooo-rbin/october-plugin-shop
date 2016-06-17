@@ -1,0 +1,7 @@
+columns:
+    code:
+        label: rbin.shop::lang.settings.requisites.title
+        type: partial
+        path: $/rbin/shop/models/requisite/_code.htm
+    value:
+        label: rbin.shop::lang.forms.value

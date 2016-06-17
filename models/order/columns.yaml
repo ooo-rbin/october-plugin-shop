@@ -1,0 +1,25 @@
+columns:
+    id:
+        label: rbin.shop::lang.orders.id
+        type: number
+    status:
+        label: rbin.shop::lang.orders.status.label
+        type: partial
+        path: $/rbin/shop/partials/_enum.htm
+    payment:
+        label: rbin.shop::lang.orders.payment.label
+        type: partial
+        path: $/rbin/shop/partials/_enum.htm
+    users:
+        label: rbin.shop::lang.orders.customer
+        type: partial
+        path: $/rbin/shop/models/order/_customer.htm
+        sortable: false
+    created_at:
+        label: rbin.shop::lang.orders.created
+        type: datetime
+        format: H:i d.m.Y
+    updated_at:
+        label: rbin.shop::lang.orders.updated
+        type: datetime
+        format: H:i d.m.Y

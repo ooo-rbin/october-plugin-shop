@@ -1,0 +1,27 @@
+<div data-control="toolbar">
+    <a
+	    href="<?= Backend::url('rbin/shop/products'); ?>"
+	    class="btn btn-primary oc-icon-caret-left">
+        <?= trans('rbin.shop::lang.forms.return'); ?>
+    </a>
+	<?php if (isset($this->category_id)) : ?>
+		<a
+			href="<?= Backend::url("rbin/shop/categories/update/{$this->category_id}"); ?>"
+			class="btn btn-default oc-icon-pencil">
+			<?= trans('rbin.shop::lang.categories.update'); ?>
+		</a>
+	<?php endif; ?>
+	<div class="dropdown dropdown-fixed">
+		<button
+			type="button"
+			class="btn btn-default oc-icon-bars"
+			data-toggle="dropdown">
+			<?= (isset($this->category_id)) ? $this->getCategoriesList()[$this->category_id] : trans('rbin.shop::lang.products.category_select'); ?>
+		</button>
+		<ul class="dropdown-menu" data-dropdown-title="<?= trans('rbin.shop::lang.categories.label'); ?>">
+			<?php foreach ($this->getCategories() as $category) : ?>
+				<li><a href="<?= Backend::url("rbin/shop/products/reorder/{$category->id}"); ?>"><?= $category->title; ?></a></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,15 @@
+import:
+    modelClass: RBIn\Shop\Models\ProductImport
+    title: rbin.shop::lang.forms.import
+    permissions: rbin.shop.products.import
+    redirect: rbin/shop/products
+    list: $/rbin/shop/models/product/csv.yaml
+    form: $/rbin/shop/models/product/import.yaml
+export:
+    modelClass: RBIn\Shop\Models\ProductExport
+    title: rbin.shop::lang.forms.export
+    permissions: rbin.shop.products.export
+    redirect: rbin/shop/products
+    fileName: products.csv
+    list: $/rbin/shop/models/product/csv.yaml
+    form: $/rbin/shop/models/product/export.yaml

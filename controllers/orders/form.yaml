@@ -1,0 +1,17 @@
+name: rbin.shop::lang.orders.label
+modelClass: RBIn\Shop\Models\Order
+defaultRedirect: rbin/shop/orders
+form: $/rbin/shop/models/order/fields.yaml
+create:
+    title: rbin.shop::lang.orders.create
+    redirect: rbin/shop/orders/update/:id
+    redirectClose: rbin/shop/orders
+    flashSave: rbin.shop::lang.forms.save_success
+update:
+    title: rbin.shop::lang.orders.update
+    redirect: rbin/shop/orders/update/:id
+    redirectClose: rbin/shop/orders
+    flashSave: rbin.shop::lang.forms.save_success
+    flashDelete: rbin.shop::lang.forms.delete_success
+preview:
+    title: rbin.shop::lang.orders.preview

@@ -1,0 +1,107 @@
+{% set products = __SELF__.products %}
+{% set features = __SELF__.features %}
+{% set filters = __SELF__.filters %}
+{% if features.count > 0 %}
+	{{ form_ajax('onProductsFilter', { class: 'form-horizontal panel panel-default' }) }}
+	<div class="panel-heading bg-danger" xmlns="http://www.w3.org/1999/html">{{ 'rbin.shop::lang.frontend.products.filters'|trans }}</div>
+		<div class="panel-body">
+			<p class="form-group">
+				<label for="shop-filter-name" class="col-md-5 col-lg-4 control-label">{{ 'rbin.shop::lang.frontend.products.title'|trans }}</label>
+				<span class="col-xs-12 col-md-7 col-lg-8">
+					<span class="btn-group" style="width: 100%; padding-right: 2.5em;">
+						<select class="form-control" id="shop-filter-name" name="filters[products][]" data-toggle="multiselect" multiple="multiple">
+							{% for product in __SELF__.all %}
+								<option value="{{ product.id }}"{{ (product.id in filters.products) ? ' selected' : '' }}>{{ product.title }}</option>
+							{% endfor %}
+						</select>
+						<button
+							style="width: 2.5em; position: absolute; right: 0;"
+							type="button"
+							class="btn btn-default"
+							title="{{ 'rbin.shop::lang.forms.reset'|trans }}"
+							onclick="$('#shop-filter-name').multiselect('deselectAll', false).multiselect('updateButtonText')">
+							<i class="fa fa-times"></i>
+						</button>
+					</span>
+				</span>
+			</p>
+			<p class="form-group"><span class="col-xs-12 col-md-offset-5 col-md-7 col-lg-offset-4 col-lg-8"><i class="fa fa-plus-circle" aria-hidden="true"></i></span</p>
+			{% for feature in features %}
+				<p class="form-group">
+					<label for="shop-filter-{{ feature.id }}" class="col-md-5 col-lg-4 control-label">{{ feature.title }}</label>
+					<span class="col-xs-12 col-md-7 col-lg-8">
+						<span class="btn-group" style="width: 100%; padding-right: 2.5em;">
+							<select class="form-control" id="shop-filter-{{ feature.id }}" name="filters[{{ feature.id }}][]" data-toggle="multiselect" multiple="multiple">
+								{% for option in __SELF__.sort(feature.rbin_shop_options) %}
+									<option{{ (option.value in filters[feature.id]) ? ' selected' : '' }}>{{ option.value|escape }}</option>
+								{% endfor %}
+							</select>
+							<button
+								style="width: 2.5em; position: absolute; right: 0;"
+								type="button"
+								class="btn btn-default"
+								title="{{ 'rbin.shop::lang.forms.reset'|trans }}"
+								onclick="$('#shop-filter-{{ feature.id }}').multiselect('deselectAll', false).multiselect('updateButtonText')">
+								<i class="fa fa-times"></i>
+							</button>
+						</span>
+					</span>
+				</p>
+			{% endfor %}
+			<p class="text-right" style="margin: 0">
+				<button type="submit" class="btn btn-danger">{{ 'rbin.shop::lang.forms.apply'|trans }}</button>
+			</p>
+		</div>
+	{{ form_close() }}
+{% endif %}
+<div class="table-responsive">
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr class="danger">
+				<th>{{ 'rbin.shop::lang.frontend.products.title'|trans }}</th>
+				{% for feature in features %}
+					<th>{{ feature.title|escape }}</th>
+				{% endfor %}
+				<th>{{ 'rbin.shop::lang.frontend.products.variants'|trans }}</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for product in products %}
+				{% set features = __SELF__.features %}
+				<tr>
+					<td>{{ product.title|escape }}</td>
+					{% for feature in features %}
+						<td>{{ product.values[feature.id]|escape }}</td>
+					{% endfor %}
+					<td>
+						{% for variant in product.variants %}
+							{{ form_ajax('onAddToCart', { class: 'form-inline btn-buy' }) }}
+								<input type="hidden" value="{{ variant.id|escape }}" name="variant">
+								<div class="input-group">
+									<span class="input-group-addon panel-danger">
+										{{ variant.title|escape }}
+										-
+										{{ 'rbin.shop::lang.forms.cent'|trans|format(variant.cost|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;'))|raw }}
+									</span>
+									<div class="input-group-btn" style="width: 2em;">
+										<button type="submit" class="form-control btn btn-danger" title="{{ 'rbin.shop::lang.frontend.products.buy'|trans }}"><i class="fa fa-cart-plus" aria-hidden="true"></i><span class="sr-only">{{ 'rbin.shop::lang.frontend.products.title'|trans }}</span></button>
+									</div>
+								</div>
+							{{ form_close() }}
+						{% endfor %}
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr class="danger">
+				<th>{{ 'rbin.shop::lang.frontend.products.title'|trans }}</th>
+				{% for feature in features %}
+					<th>{{ feature.title|escape }}</th>
+				{% endfor %}
+				<th>{{ 'rbin.shop::lang.frontend.products.variants'|trans }}</th>
+			</tr>
+		</tfoot>
+</table>
+</div>
+{% partial 'pagination' pages=products totalPages=products.lastPage newer='Предыдущее' older='Ещё' %}

@@ -1,0 +1,32 @@
+fields:
+    categories:
+        label: rbin.shop::lang.categories.label
+        commentAbove: rbin.shop::lang.forms.default_comment
+        type: checkboxlist
+        span: left
+    balance:
+        label: rbin.shop::lang.variants.balance
+        commentAbove: rbin.shop::lang.forms.to_comment
+        type: radio
+        span: right
+        options:
+            toNull: rbin.shop::lang.forms.to_null
+            toZero: rbin.shop::lang.forms.to_zero
+    cost:
+        label: rbin.shop::lang.variants.cost
+        commentAbove: rbin.shop::lang.forms.to_comment
+        type: radio
+        span: right
+        options:
+            toNull: rbin.shop::lang.forms.to_null
+            toZero: rbin.shop::lang.forms.to_zero
+    variant:
+        label: rbin.shop::lang.variants.name
+        commentAbove: rbin.shop::lang.variants.comment
+        type: text
+        span: left
+    show:
+        label: rbin.shop::lang.forms.show
+        comment: rbin.shop::lang.forms.contrary
+        type: checkbox
+        span: right

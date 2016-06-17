@@ -1,0 +1,12 @@
+scopes:
+    categories:
+        label: rbin.shop::lang.categories.label
+        modelClass: RBIn\Shop\Models\Category
+        nameFrom: title
+        scope: categories
+    products:
+        label: rbin.shop::lang.features.products
+        scope: products
+        options:
+            0: = 0
+            1: ≥ 1

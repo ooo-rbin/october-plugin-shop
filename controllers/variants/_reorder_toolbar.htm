@@ -1,0 +1,14 @@
+<?php Block::put('breadcrumb'); ?>
+	<ul>
+		<li><a href="<?= Backend::url("rbin/shop/products"); ?>"><?= trans("rbin.shop::lang.products.label"); ?></a></li>
+		<li><a href="<?= Backend::url("rbin/shop/products/update/{$this->product->id}"); ?>"><?= e($this->product->title); ?></a></li>
+		<li><?= trans($this->pageTitle); ?></li>
+	</ul>
+<?php Block::endPut(); ?>
+<div data-control="toolbar">
+	<a
+		href="<?= Backend::url("rbin/shop/products/update/{$this->product->id}"); ?>"
+		class="btn btn-default oc-icon-pencil">
+		<?= trans('rbin.shop::lang.products.update'); ?>
+	</a>
+</div>

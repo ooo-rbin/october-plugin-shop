@@ -1,0 +1,118 @@
+<meta charset="UTF-8">
+<style>
+	@import "../assets/model.css";
+</style>
+
+<div class="layout">
+<div class="layout-cell width-300 form-sidebar control-scrollpanel">
+	<div class="layout-relative">
+		<div class="layout-absolute">
+			<div class="control-scrollbar drag-scrollbar vertical" data-control="scrollbar" data-disposable>
+			</div>
+		</div>
+	</div>
+</div>
+	<div class="layout-cell model-container ">
+
+		<section class="model alternatives">
+			<p><span>AND</span></p>
+			<ul>
+				<li>
+					<p><span>&le;</span></p>
+					<ul>
+						<li><span>Amount</span></li>
+						<li><span>5000</span></li>
+					</ul>
+				</li>
+				<li>
+					<p><span>OR</span></p>
+					<ul>
+						<li>
+							<p><span>&gt;</span></p>
+							<ul>
+								<li><span>CreditRating</span></li>
+								<li><span>5</span></li>
+							</ul>
+						</li>
+						<li>
+							<p><span>=</span></p>
+							<ul>
+								<li><span>CreditRating</span></li>
+								<li><span>5</span></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</section>
+
+	</div>
+	</div>
+
+	<div class="model-container">
+
+	<section class="model">
+		<p><span>ruleSet</span></p>
+		<dl><dt>name</dt><dd>&nbsp;</dd></dl>
+		<dl><dt>effectiveBegin</dt><dd>&nbsp;</dd></dl>
+		<dl><dt>effectiveEnd</dt><dd>&nbsp;</dd></dl>
+		<ul>
+			<li>
+				<input id="group-1" type="checkbox">
+				<label for="group-1"><span>rule</span></label>
+				<dl><dt>name</dt><dd>&nbsp;</dd></dl>
+				<dl><dt>disabled</dt><dd>false</dd></dl>
+				<ol>
+					<li>
+						<p><span>when</span></p>
+						<dl><dt>condition</dt><dd>1</dd></dl>
+						<ul>
+							<li>
+								<p><span>send</span></p>
+								<dl><dt>transform</dt><dd>&nbsp;</dd></dl>
+								<dl><dt>target</dt><dd>&nbsp;</dd></dl>
+							</li>
+							<li>
+								<p><span>send</span></p>
+								<dl><dt>transform</dt><dd>&nbsp;</dd></dl>
+								<dl><dt>target</dt><dd>&nbsp;</dd></dl>
+							</li>
+							<li>
+								<p><span>return</span></p>
+							</li>
+						</ul>
+					</li>
+				</ol>
+			</li>
+			<li>
+				<input id="group-2" type="checkbox">
+				<label for="group-2"><span>rule</span></label>
+				<dl><dt>name</dt><dd>&nbsp;</dd></dl>
+				<dl><dt>disabled</dt><dd>false</dd></dl>
+				<dl><dt>constraint</dt><dd>&nbsp;</dd></dl>
+				<ol>
+					<li>
+						<p><span>when</span></p>
+						<dl><dt>condition</dt><dd>1</dd></dl>
+						<ul>
+							<li>
+								<p><span>send</span></p>
+								<dl><dt>transform</dt><dd>&nbsp;</dd></dl>
+								<dl><dt>target</dt><dd>&nbsp;</dd></dl>
+							</li>
+							<li>
+								<p><span>send</span></p>
+								<dl><dt>transform</dt><dd>&nbsp;</dd></dl>
+								<dl><dt>target</dt><dd>&nbsp;</dd></dl>
+							</li>
+							<li>
+								<p><span>return</span></p>
+							</li>
+						</ul>
+					</li>
+				</ol>
+			</li>
+		</ul>
+	</section>
+
+	</div></div>

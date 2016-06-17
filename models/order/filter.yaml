@@ -1,0 +1,5 @@
+scopes:
+    trashed:
+        label: rbin.shop::lang.orders.trashed
+        type: checkbox
+        scope: trashed

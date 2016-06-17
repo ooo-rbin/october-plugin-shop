@@ -1,0 +1,229 @@
+@charset "UTF-8";
+.model-container {
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	color: #666
+}
+.model {
+	padding: 0.5em;
+	white-space: nowrap;
+	display: table-cell;
+	cursor: auto;
+}
+.model * {
+	font-size: inherit;
+	line-height: 1.25em;
+}
+.model p,
+.model label,
+.model dl,
+.model dt,
+.model dd,
+.model ul,
+.model ol {
+	padding: 0;
+	margin: 0;
+}
+.model p,
+.model label,
+.model dl,
+.model dt,
+.model dd,
+.model button {
+	display: inline-block;
+	font-weight: normal;
+}
+.model dl,
+.model span {
+	background-color: #bababa;
+	color: #fff;
+	border: solid 1px #bababa;
+	display: inline-block;
+	border-radius: 0.5em;
+	position: relative;
+	z-index: 2;
+	padding: 0.5em;
+	cursor: pointer;
+}
+.model dl {
+	margin-left: 0.5em;
+	padding: 0.25em 0.25em 0.25em 0.5em;
+}
+.model dl:before {
+	content: '';
+	display: block;
+	position: absolute;
+	left: -0.875em;
+	width: 0.875em;
+	top: 0;
+	bottom: 50%;
+	border-bottom: solid 1px #bababa;
+	z-index: 1;
+}
+.model dd {
+	background-color: #DFDEF0;
+	color: #666;
+	padding: 0.25em 0.5em;
+	border-radius: 0.25em;
+	margin-left: 0.5em;
+	text-align: center;
+	cursor: pointer;
+}
+.model ul,
+.model ol {
+	padding-left: 2em;
+}
+.model ol:before {
+	content: '';
+	display: block;
+	position: absolute;
+	border: solid 1px #dcdcdc;
+	top: 1.625em;
+	left: 1.25em;
+	right: 0;
+	bottom: 0;
+	border-radius: 0.5em;
+	background-color: #EEEDE8;
+}
+.model li {
+	padding: 0.5em 0.5em 0 0.5em;
+	list-style: none;
+	position: relative;
+}
+.model ol > li > ul {
+	padding-bottom: 0.5em;
+}
+.model li:before,
+.model li:after {
+	content: '';
+	display: block;
+	position: absolute;
+	border-left: solid 1px #bababa;
+	width: 1.75em;
+	left: -1.25em;
+}
+.model li:before {
+	border-bottom: solid 1px #bababa;
+	border-radius: 0 0 0 0.5em;
+	top: -1.5em;
+	height: 3.25em;
+}
+.model li:after {
+	top: 1em;
+	bottom: 1.5em;
+}
+.model li:last-child:after,
+.model ol > li:before,
+.model ol > li:after,
+.model input[type=checkbox],
+.model input[type=checkbox]:not(:checked) ~ ul,
+.model input[type=checkbox]:not(:checked) ~ ol {
+	display: none;
+}
+.model label {
+	cursor: pointer;
+}
+.model label:before {
+	content: '➕';
+	display: block;
+	position: absolute;
+	z-index: 2;
+	left: -1.9em;
+	top: 1.1em;
+	width: 1.25em;
+	height: 1.25em;
+	line-height: 1.5em;
+	text-align: center;
+	background-color: #fff;
+	color: #666;
+	border: solid 1px #bababa;
+	border-radius: 50%;
+	font-weight: bold;
+	cursor: pointer;
+}
+.model input[type=checkbox]:checked ~ label:before {
+	content: '➖';
+}
+.model > p > span {
+	background-color: #FEF0B3;
+	color: #333;
+	border-color: #356B8D;
+}
+.model label > span {
+	background-color: #AAACDF;
+	color: #333;
+}
+.model ul > li > p > span {
+	background-color: #356B8D;
+	color: #fff;
+}
+.model dd:hover {
+	background-color: #DADAFC;
+	color: #333;
+}
+.model ol > li > p > span {
+	background-color: #DADBA2;
+	color: #333;
+}
+.model ol > li > ul > li > p > span {
+	background-color: #FDFDDB;
+	color: #333;
+}
+.model ol > li > ul > li:last-child > p > span {
+	background-color: #F8EAE1;
+	color: #333;
+}
+.model dl:hover,
+.model span:hover {
+	border-color: #356B8D;
+}
+.model li > span {
+	background-color: #FAECE3;
+	color: #333;
+}
+.model ol > li {
+	padding-bottom: 0.5em;
+}
+.model ol {
+	padding-left: 1em;
+}
+.model button {
+	display: inline-block;
+	width: 1em;
+	line-height: 1em;
+	padding: 0.5em;
+	box-sizing: content-box;
+	vertical-align: middle;
+	border: solid 1px #ccc;
+	border-radius: 50%;
+	margin-top: -2px;
+}
+
+.model.alternatives,
+.model.alternatives li {
+	display: table;
+	padding: 0.5em;
+}
+.model.alternatives ul {
+	padding-left: 0.5em;
+}
+.model.alternatives > *,
+.model.alternatives li > * {
+	display: table-cell;
+	vertical-align: middle;
+}
+.model.alternatives li:before {
+	top: 0;
+	height: 50%;
+}
+.model.alternatives li:after {
+	top: 50%;
+	bottom: 0;
+	border-top: solid 1px #bababa;
+	border-radius: 0.5em 0 0 0;
+}
+.model.alternatives li:first-child:before,
+.model.alternatives li:last-child:after {
+	display: none;
+}

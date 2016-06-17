@@ -1,0 +1,17 @@
+name: rbin.shop::lang.categories.label
+modelClass: RBIn\Shop\Models\Category
+defaultRedirect: rbin/shop/categories
+form: $/rbin/shop/models/category/fields.yaml
+create:
+    title: rbin.shop::lang.categories.create
+    redirect: rbin/shop/categories/update/:id
+    redirectClose: rbin/shop/categories
+    flashSave: rbin.shop::lang.forms.save_success
+update:
+    title: rbin.shop::lang.categories.update
+    redirect: rbin/shop/categories/update/:id
+    redirectClose: rbin/shop/categories
+    flashSave: rbin.shop::lang.forms.save_success
+    flashDelete: rbin.shop::lang.forms.delete_success
+preview:
+    title: rbin.shop::lang.categories.preview

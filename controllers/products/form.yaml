@@ -1,0 +1,17 @@
+name: rbin.shop::lang.products.label
+modelClass: RBIn\Shop\Models\Product
+defaultRedirect: rbin/shop/products
+form: $/rbin/shop/models/product/fields.yaml
+create:
+    title: rbin.shop::lang.products.create
+    redirect: rbin/shop/products/update/:id
+    redirectClose: rbin/shop/products
+    flashSave: rbin.shop::lang.forms.save_success
+update:
+    title: rbin.shop::lang.products.update
+    redirect: rbin/shop/products/update/:id
+    redirectClose: rbin/shop/products
+    flashSave: rbin.shop::lang.forms.save_success
+    flashDelete: rbin.shop::lang.forms.delete_success
+preview:
+    title: rbin.shop::lang.products.preview

@@ -1,0 +1,16 @@
+title: rbin.shop::lang.orders.label
+modelClass: RBIn\Shop\Models\Order
+recordUrl: rbin/shop/orders/update/:id
+noRecordsMessage: rbin.shop::lang.forms.empty
+showSorting: true
+showCheckboxes: true
+showSetup: true
+list: $/rbin/shop/models/order/columns.yaml
+filter: $/rbin/shop/models/order/filter.yaml
+defaultSort:
+    column: status
+    direction: desc
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: rbin.shop::lang.forms.search

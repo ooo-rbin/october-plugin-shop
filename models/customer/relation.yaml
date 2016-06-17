@@ -1,0 +1,16 @@
+rbin_shop_requisites:
+    label: ' '
+    deferredBinding: true
+    emptyMessage: rbin.shop::lang.forms.empty
+    view:
+        toolbarPartial: $/rbin/shop/models/customer/_requisites_toolbar.htm
+        showSearch: true
+        showSorting: true
+        showCheckboxes: true
+        list: $/rbin/shop/models/requisite/columns.yaml
+        form: $/rbin/shop/models/requisite/fields.yaml
+    manage:
+        name: rbin.shop::lang.requisites.label
+        showSearch: true
+        showSorting: true
+        form: $/rbin/shop/models/requisite/fields.yaml
