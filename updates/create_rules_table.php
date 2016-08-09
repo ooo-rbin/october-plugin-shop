@@ -21,6 +21,7 @@ class CreateRulesTable extends Migration {
 			// Колонки
 			$table->increments(Rule::KEY, 'primary');
 			$table->boolean('show');
+			$table->boolean('global');
 			$table->string('title');
 			$table->text('description');
 			$table->text('value');

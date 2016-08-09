@@ -25,7 +25,26 @@ class OrderedVariant extends Model {
 		'variant_id',
 		'product_id',
 		'amount',
+		'units',
 		'cost',
+	];
+
+	protected $visible = [
+		'title',
+		'variant_id',
+		'product_id',
+		'amount',
+		'units',
+		'cost',
+	];
+
+	protected $casts = [
+		'title' => 'string',
+		'variant_id' => 'integer',
+		'product_id' => 'integer',
+		'amount' => 'integer',
+		'units' => 'string',
+		'cost' => 'float',
 	];
 
 	public function __construct(array $attributes = []) {
@@ -61,11 +80,13 @@ class OrderedVariant extends Model {
 			return null;
 		}
 		return new static([
+			'slug' => $variant->slug,
 			'title' => $variant->{Product::TABLE}->title . ': ' . $variant->title,
-			'variant_id' => $variant->{Variant::KEY},
-			'product_id' => $variant->product_id,
+			'variant_id' => intval($variant->{Variant::KEY}),
+			'product_id' => intval($variant->product_id),
 			'amount' => 0,
-			'cost' => $variant->cost,
+			'units' => $variant->{Product::TABLE}->units,
+			'cost' => doubleval($variant->cost),
 		]);
 	}
 

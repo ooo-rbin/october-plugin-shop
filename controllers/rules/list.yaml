@@ -1,0 +1,15 @@
+title: rbin.shop::lang.rules.label
+modelClass: RBIn\Shop\Models\Rule
+recordUrl: rbin/shop/rules/update/:id
+noRecordsMessage: rbin.shop::lang.forms.empty
+showSorting: true
+showCheckboxes: true
+showSetup: true
+list: $/rbin/shop/models/rule/columns.yaml
+defaultSort:
+    column: order
+    direction: asc
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: rbin.shop::lang.forms.search

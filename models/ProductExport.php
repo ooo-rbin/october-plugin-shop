@@ -1,7 +1,6 @@
 <?php namespace RBIn\Shop\Models;
 
 use RBIn\Shop\Classes\ExportModel;
-use RBIn\Shop\Classes\Model;
 
 class ProductExport extends ExportModel {
 

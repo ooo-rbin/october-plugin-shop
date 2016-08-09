@@ -1,6 +1,14 @@
 columns:
+    order:
+        label: rbin.shop::lang.forms.order
+        type: number
+        invisible: true
     title:
         label: rbin.shop::lang.forms.title
+        type: text
+        serchable: true
+    slug:
+        label: rbin.shop::lang.forms.slug
         type: text
         serchable: true
     balance:

@@ -47,13 +47,12 @@ tabs:
             type: partial
             path: variants
             stretch: true
-        #rbin_shop_rules:
-        #    tab: rbin.shop::lang.rules.label
-        #    type: rules
-        #    size: huge
-        #    stretch: true
 secondaryTabs:
     fields:
+        units:
+            tab: rbin.shop::lang.settings.label
+            label: rbin.shop::lang.forms.units
+            type: text
         picture:
             tab: rbin.shop::lang.settings.label
             label: rbin.shop::lang.forms.picture
@@ -73,6 +72,14 @@ secondaryTabs:
             type: checkbox
             required: false
             default: false
+        rbin_shop_rules:
+            tab: rbin.shop::lang.settings.label
+            label: rbin.shop::lang.rules.label
+            commentAbove: rbin.shop::lang.rules.comment
+            type: relation
+            nameFrom: title
+            descriptionFrom: description
+            emptyOption: rbin.shop::lang.forms.empty
         meta_title:
             tab: rbin.shop::lang.forms.meta
             label: rbin.shop::lang.forms.meta_title

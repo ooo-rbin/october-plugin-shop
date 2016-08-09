@@ -1,14 +1,3 @@
-<div id="cart-summary" class="table-responsive">
+<div id="cart-summary">
 	{% partial __SELF__ ~ "::summary" %}
 </div>
-{% set customer = __SELF__.customer %}
-{% set cart = __SELF__.cart %}
-{% if cart.count > 0 %}
-	{% if customer %}
-		{{ form_ajax('onCreateOrder') }}
-			<p class="text-right"><button type="submit" class="btn btn-danger">{{ 'rbin.shop::lang.frontend.cart.end'|trans }}</button></p>
-		{{ form_close() }}
-	{% else %}
-		<p>{{ 'rbin.shop::lang.frontend.cart.guest'|trans }}</p>
-	{% endif %}
-{% endif %}

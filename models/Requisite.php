@@ -2,7 +2,6 @@
 
 use RainLab\User\Models\User;
 use RBIn\Shop\Classes\Model;
-use System\Models\File;
 
 /**
  * Реквизиты клиента.

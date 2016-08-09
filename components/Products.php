@@ -87,6 +87,8 @@ class Products extends Component {
 				$array[intval($filter)] = $restriction;
 			} else if ($filter == 'products') {
 				$array[$filter] = $restriction;
+			} else if ($filter == 'categories') {
+				$array[$filter] = $restriction;
 			}
 		}
 		return $array;
@@ -139,6 +141,10 @@ class Products extends Component {
 
 	public function getRoots() {
 		return Category::all([Category::KEY, Category::NEST_LEFT, Category::NEST_RIGHT, Category::NEST_DEPTH, Category::PARENT_ID, 'show', 'slug', 'title'])->toNested();
+	}
+
+	public function getAllCategories() {
+		return Category::where('show', '=', 1)->get(['title', Category::KEY]);
 	}
 
 }

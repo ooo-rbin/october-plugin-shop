@@ -24,7 +24,7 @@
 	</button>
 	<?php if (isset($formModel->{$formModel::KEY})) : ?>
 		<a
-			href="<?= Backend::url("rbin/shop/variants/reorder/{$formModel->{$formModel::KEY}}"); ?>"
+			href="<?= Backend::url("rbin/shop/ordered-variants/reorder/{$formModel->{$formModel::KEY}}"); ?>"
 			class="btn btn-sm btn-default oc-icon-sort">
 			<?= trans('rbin.shop::lang.variants.reorder'); ?>
 		</a>

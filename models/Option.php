@@ -36,11 +36,6 @@ class Option extends Model {
 			'otherKey' => Product::KEY,
 			'order' => Product::SORT_ORDER . ' asc',
 		];
-		//$this->morphMany[Rule::TABLE] = [
-		//	Rule::class,
-		//	'name' => 'from',
-		//	'order' => Product::SORT_ORDER . ' asc',
-		//];
 		//
 		parent::__construct($attributes);
 	}

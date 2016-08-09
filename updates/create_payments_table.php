@@ -21,7 +21,6 @@ class CreatePaymentsTable extends Migration {
 			// Колонки
 			$table->increments(Payment::KEY, 'primary');
 			$table->boolean('show');
-			$table->unsignedInteger('priority');
 			$table->string('title');
 			$table->text('description');
 			$table->decimal('cost');

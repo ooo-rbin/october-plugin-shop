@@ -20,7 +20,6 @@ abstract class RuleByApplicability extends Enum {
 	const product  = Product::class;
 	const variant  = Variant::class;
 	const feature  = Feature::class;
-	const option   = Option::class;
 	const customer = Customer::class;
 	const delivery = Delivery::class;
 	const payment  = Payment::class;

@@ -10,9 +10,9 @@ use October\Rain\Database\Traits\SoftDeleting;
 use Auth;
 use Mail;
 use Backend\Models\User as Admin;
-use Markdown;
-use RainLab\Blog\Classes\TagProcessor;
 use System\Models\File;
+use Backend;
+use Flash;
 
 /**
  * Заказ по каталогу продукции.
@@ -20,7 +20,9 @@ use System\Models\File;
  */
 class Order extends Model {
 
-	use SoftDeleting;
+	use SoftDeleting {
+		SoftDeleting::performDeleteOnModel as SoftDeletingPerformDeleteOnModel;
+	}
 
 	protected $dates = ['deleted_at'];
 
@@ -29,7 +31,30 @@ class Order extends Model {
 	public $timestamps = true;
 
 	protected $fillable = [
-		'total_cost',
+		'customer_id',
+		'payment_id',
+		'delivery_id',
+	];
+
+	protected $visible = [
+		'customer_id',
+		'payment_id',
+		'delivery_id',
+		OrderedVariant::TABLE,
+	];
+
+	protected $casts = [
+		'customer_id' => 'integer',
+		'payment_id' => 'integer',
+		'delivery_id' => 'integer',
+		'delivery_separately' => 'boolean',
+		'payment_separately' => 'boolean',
+		'delivery_cost' => 'float',
+		'payment_cost' => 'float',
+		'delivery_payment' => 'float',
+		'payment_payment' => 'float',
+		'total_cost' => 'float',
+		'total_payment' => 'float',
 	];
 
 	public function __construct(array $attributes = []) {
@@ -75,15 +100,40 @@ class Order extends Model {
 			File::class,
 			'order' => 'sort_order',
 		];
-		//$this->belongsToMany[Rule::TABLE] = [
-		//	Rule::class,
-		//	'table' => OrderedRule::TABLE,
-		//	'key' => $this->getForeignNames(static::class)['column'],
-		//	'otherKey' => $this->getForeignNames(Rule::class)['column'],
-		//	'order' => Variant::SORT_ORDER . ' asc',
-		//];
 		//
 		parent::__construct($attributes);
+		// Связи
+		if (isset($attributes[OrderedVariant::TABLE])) {
+			foreach ($attributes[OrderedVariant::TABLE] as $variant) {
+				$this->{OrderedVariant::TABLE}->push(new OrderedVariant($variant));
+			}
+		}
+		$this->validPayments = Payment::orderBy(Payment::SORT_ORDER, 'asc')->get();
+		$this->validDeliveries = Delivery::orderBy(Delivery::SORT_ORDER, 'asc')->get();
+	}
+
+	protected function updateHasMany() {
+		foreach ($this->hasMany as $relationName => $config) {
+			$class = $config[0];
+			$key = (defined("${class}::KEY")) ? $class::KEY: 'id';
+			$this->$relationName()->whereNotIn($key, $this->$relationName->lists($key))->delete();
+			foreach ($this->$relationName as $model) {
+				$this->$relationName()->save($model);
+			}
+		}
+	}
+
+	public function afterUpdate() {
+		$this->updateHasMany();
+		if ($this->exists && (!empty($this->message) || $this->remind)) {
+			$this->sendToUser();
+		}
+	}
+
+	public function afterCreate() {
+		$this->updateHasMany();
+		$this->sendToAdmin();
+		$this->sendToUser();
 	}
 
 	public function trans($column, $value = null) {
@@ -161,7 +211,7 @@ class Order extends Model {
 		return $this->recall;
 	}
 
-	protected $remind = true;
+	protected $remind = false;
 
 	public function setRemindAttribute($remind) {
 		$this->remind = boolval($remind);
@@ -226,54 +276,128 @@ class Order extends Model {
 			->with(OrderedVariant::TABLE);
 	}
 
+	public $validDeliveries;
+	public $validPayments;
+	public $valid = false;
+
+	public function runRule($code) {
+		try {
+			eval($code);
+			return true;
+		} catch (\Exception $e) {
+			Flash::error($e->getMessage());
+			return false;
+		}
+	}
+
+	public function callRules() {
+		foreach (Rule::isGlobal()->get(['value']) as $rule) {
+			if (!$this->runRule($rule->value)) {
+				return;
+			}
+		}
+		foreach ($this->{OrderedRule::TABLE} as $rule) {
+			if (!$this->runRule($rule->value)) {
+				return;
+			}
+		}
+	}
+
 	public function beforeValidate() {
-		if (empty($this->payment_id)) {
-			$this->payment_id = null;
+		if (empty($this->slug)) {
+			$this->slug = uniqid();
+		}
+		if (empty($this->customer_id)) {
+			$this->customer_id = null;
+		} else if (isset($this->{Customer::TABLE})) {
+			$this->customer_title = (empty($this->customer_title)) ? $this->{Customer::TABLE}->name . ' [' . $this->{Customer::TABLE}->email . ']' : $this->customer_title;
 		}
 		if (empty($this->delivery_id)) {
 			$this->delivery_id = null;
+		} else if (isset($this->{Delivery::TABLE})) {
+			$this->delivery_title      = (empty($this->delivery_title))      ? $this->{Delivery::TABLE}->title      : $this->delivery_title;
+			$this->delivery_separately = (empty($this->delivery_separately)) ? $this->{Delivery::TABLE}->separately : $this->delivery_separately;
+			$this->delivery_cost       = (empty($this->delivery_cost))       ? $this->{Delivery::TABLE}->cost       : $this->delivery_cost;
 		}
-		if ($this->recall) {
-			$this->total_cost = array_reduce($this->{OrderedVariant::TABLE}()->get(['amount', 'cost'])->toArray(), function ($cost, $variant) {
-				return $cost + ($variant['amount'] * $variant['cost']);
-			}, 0); // TODO учитывать стоимость доставки и оплаты
+		if (empty($this->payment_id)) {
+			$this->payment_id = null;
+		} else if (isset($this->{Payment::TABLE})) {
+			$this->payment_title      = (empty($this->payment_title))      ? $this->{Payment::TABLE}->title      : $this->payment_title;
+			$this->payment_separately = (empty($this->payment_separately)) ? $this->{Payment::TABLE}->separately : $this->payment_separately;
+			$this->payment_cost       = (empty($this->payment_cost))       ? $this->{Payment::TABLE}->cost       : $this->payment_cost;
+
 		}
-		if (!empty($this->message) || $this->remind) {
-			if (empty($this->message)) {
-				$message = trans('rbin.shop::lang.orders.remind_message');
-			} else {
-				$message = $this->message;
+		if ($this->recall || !$this->exists) {
+			$this->callRules();
+		}
+	}
+
+	public function sendToUser() {
+		if (empty($this->message)) {
+			$message = trans('rbin.shop::lang.orders.remind_message');
+		} else {
+			$message = $this->message;
+		}
+		$requisites = [];
+		foreach (Settings::get('requisites', []) as $requisite) {
+			$requisites[$requisite['code']] = $requisite;
+		}
+		foreach ($this->{Customer::TABLE}->{Requisite::TABLE} as $requisite) {
+			if (isset($requisites[$requisite->code])) {
+				$requisites[$requisite['code']]['value'] = $requisite->value;
 			}
-			// TODO настройки писем
-			$requisites = [];
-			foreach (Settings::get('requisites', []) as $requisite) {
-				$requisites[$requisite['code']] = $requisite;
+		}
+		foreach ($this->{Customer::TABLE}->rbin_shop_requisite_files as $file) {
+			$requisites[$file->getLocalPath()] = [
+				'url' => url($file->getPath()),
+				'value' => $file->file_name,
+				'title' => $file->title,
+			];
+		}
+		Mail::sendTo($this->{Customer::TABLE}()->get(['email'])->lists('email'), 'rbin.shop::mail.order', [
+			'order' => $this,
+			'text' => $message,
+			'requisites' => $requisites,
+			'url' => url('/cabinet/orders/' . $this->slug),
+		], function (Message $message) {
+			foreach ($this->rbin_shop_order_files as $file) {
+				$message->attach($file->getLocalPath(), [
+					'as' => $file->file_name,
+					'type' => $file->content_type,
+				]);
 			}
-			foreach ($this->{Customer::TABLE}->{Requisite::TABLE} as $requisite) {
-				if (isset($requisites[$requisite->code])) {
-					$requisites[$requisite['code']]['value'] = $requisite->value;
-				}
+		});
+	}
+
+	public function sendToAdmin() {
+		$requisites = [];
+		foreach (Settings::get('requisites', []) as $requisite) {
+			$requisites[$requisite['code']] = $requisite;
+		}
+		foreach ($this->{Customer::TABLE}->{Requisite::TABLE} as $requisite) {
+			if (isset($requisites[$requisite->code])) {
+				$requisites[$requisite['code']]['value'] = $requisite->value;
 			}
-			foreach ($this->{Customer::TABLE}->rbin_shop_requisite_files as $file) {
-				$requisites[$file->getLocalPath()] = [
-					'url' => url($file->getPath()),
-					'value' => $file->file_name,
-					'title' => $file->title,
-				];
-			}
-			Mail::sendTo(array_merge($this->{Customer::TABLE}()->get(['email'])->lists('email'), Admin::all(['email'])->lists('email')), 'rbin.shop::mail.order', [
-				'order' => $this,
-				'text' => TagProcessor::instance()->processTags(Markdown::parse($message), false),
-				'requisites' => $requisites,
-				'url' => url('/cabinet/orders/' . $this->slug),
-			], function (Message $message) {
-				foreach ($this->rbin_shop_order_files as $file) {
-					$message->attach($file->getLocalPath(), [
-						'as' => $file->file_name,
-						'type' => $file->content_type,
-					]);
-				}
-			});
+		}
+		foreach ($this->{Customer::TABLE}->rbin_shop_requisite_files as $file) {
+			$requisites[$file->getLocalPath()] = [
+				'url' => url($file->getPath()),
+				'value' => $file->file_name,
+				'title' => $file->title,
+			];
+		}
+		Mail::sendTo(Admin::all(['email'])->lists('email'), 'rbin.shop::mail.new', [
+			'order' => $this,
+			'requisites' => $requisites,
+			'url' => Backend::url('rbin/shop/orders/update/' . $this->id),
+		]);
+	}
+
+	protected function performDeleteOnModel() {
+		if (is_null($this->{$this->getDeletedAtColumn()})) {
+			$this->SoftDeletingPerformDeleteOnModel();
+		} else {
+			$this->restore();
 		}
 	}
 

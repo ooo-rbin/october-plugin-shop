@@ -6,6 +6,9 @@ showCheckboxes: true
 showSetup: true
 showTree: true
 list: $/rbin/shop/models/category/columns.yaml
+defaultSort:
+    column: nest_left
+    direction: asc
 toolbar:
     buttons: list_toolbar
     search:

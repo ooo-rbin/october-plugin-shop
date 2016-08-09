@@ -22,6 +22,7 @@ class Variant extends Model {
 
 	protected $fillable = [
 		'title',
+		'slug',
 		'balance',
 		'cost',
 	];
@@ -52,11 +53,13 @@ class Variant extends Model {
 			'otherKey' => $this->getForeignNames(Order::class)['column'],
 			'order' => Order::CREATED_AT . ' desc',
 		];
-		$this->belongsTo[Rule::TABLE] = [
+		$this->morphToMany[Rule::TABLE] = [
 			Rule::class,
-			'key' => $this->getForeignNames(Rule::class)['column'],
-			'otherKey' => Rule::KEY,
-			'order' => Rule::SORT_ORDER . ' asc',
+			'scope' => 'isApplied',
+			'table' => RuledSource::TABLE,
+			'otherKey' => $this->getForeignNames(Rule::class)['column'],
+			'name' => 'source',
+			'order' => $this->getSortName(Rule::class),
 		];
 		//
 		parent::__construct($attributes);

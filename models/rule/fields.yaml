@@ -1,0 +1,38 @@
+fields:
+    title:
+        label: rbin.shop::lang.forms.title
+        type: text
+        required: true
+    toolbar:
+        type: partial
+        path: $/rbin/shop/partials/_form_toolbar.htm
+        cssClass: collapse-visible
+tabs:
+    stretch: true
+    fields:
+        value:
+            tab: rbin.shop::lang.forms.code
+            type: codeeditor
+            language: php
+            size: huge
+            stretch: true
+            required: true
+secondaryTabs:
+    fields:
+        show:
+            tab: rbin.shop::lang.settings.label
+            label: rbin.shop::lang.forms.show
+            commentAbove: rbin.shop::lang.forms.show_comment
+            type: checkbox
+            default: true
+        global:
+            tab: rbin.shop::lang.settings.label
+            label: rbin.shop::lang.rules.global
+            commentAbove: rbin.shop::lang.rules.global_comment
+            type: checkbox
+            default: false
+        description:
+            tab: rbin.shop::lang.settings.label
+            label: rbin.shop::lang.forms.description
+            type: textarea
+            size: huge

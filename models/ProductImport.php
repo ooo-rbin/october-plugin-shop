@@ -33,6 +33,9 @@ class ProductImport extends ImportModel {
 		if (empty($results['variant_title'])) {
 			$results['variant_title'] = $this->variant;
 		}
+		if (empty($results['variant_slug'])) {
+			$results['variant_slug'] = str_slug($this->variant);
+		}
 		if (empty($results['show'])) {
 			$results['show'] = $this->show;
 		}

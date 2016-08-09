@@ -1,11 +1,12 @@
-{% set cart = __SELF__.cart %}
+{% set cart = __SELF__.cart.rbin_shop_ordered_variants %}
+{% set total_cost = __SELF__.cart.total_cost %}
 <a
 	href="{{ __SELF__.url|escape }}"
 	class="popover-handler"
-	title="{{ ((cart.count > 0) ? 'rbin.shop::lang.frontend.cart.summaryTotal'|trans~'rbin.shop::lang.forms.cent'|trans|format(__SELF__.totalCost|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;')) : 'rbin.shop::lang.frontend.cart.summaryEmpty'|trans)|raw }}">
+	title="{{ ((cart.count > 0) ? 'rbin.shop::lang.frontend.cart.summaryTotal'|trans~'rbin.shop::lang.forms.cent'|trans|format(total_cost|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;')) : 'rbin.shop::lang.frontend.cart.summaryEmpty'|trans)|raw }}">
 	{{ 'rbin.shop::lang.frontend.cart.title'|trans|escape }}
 	{% if cart.count > 0 %}
-		<span class="badge">{{ ('rbin.shop::lang.frontend.cart.total'|trans~'rbin.shop::lang.forms.cent'|trans|format(__SELF__.totalCost|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;')))|raw }}</span>
+		<span class="badge">{{ ('rbin.shop::lang.frontend.cart.total'|trans~'rbin.shop::lang.forms.cent'|trans|format(total_cost|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;')))|raw }}</span>
 	{% endif %}
 </a>
 {% if cart.count > 0 %}
@@ -13,8 +14,7 @@
 		{% for variant in cart %}
 			<li>
 				<b>{{ variant.title|escape }}</b>
-				{{ variant.amount }}
-				{{ 'rbin.shop::lang.frontend.cart.pcs'|trans }}
+				{{ variant.amount }} {{ variant.units }}
 				{{ 'rbin.shop::lang.frontend.cart.on'|trans }}
 				{{ 'rbin.shop::lang.forms.cent'|trans|format((variant.cost*variant.amount)|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;'))|raw }}
 			</li>

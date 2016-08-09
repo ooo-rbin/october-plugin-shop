@@ -14,10 +14,6 @@ tabs:
             mode: split
             size: huge
             stretch: true
-        #rbin_shop_rules:
-        #    tab: rbin.shop::lang.rules.label
-        #    type: rules
-        #    size: huge
 secondaryTabs:
     fields:
         show:
@@ -34,6 +30,14 @@ secondaryTabs:
             type: checkbox
             required: false
             default: true
+        rbin_shop_rules:
+            tab: rbin.shop::lang.settings.label
+            label: rbin.shop::lang.rules.label
+            commentAbove: rbin.shop::lang.rules.comment
+            type: relation
+            nameFrom: title
+            descriptionFrom: description
+            emptyOption: rbin.shop::lang.forms.empty
         rbin_shop_categories:
             tab: rbin.shop::lang.categories.label
             type: relation

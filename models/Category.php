@@ -61,11 +61,14 @@ class Category extends Model {
 			'otherKey' => $this->getForeignNames(Feature::class)['column'],
 			'order' => Feature::SORT_ORDER . ' asc',
 		];
-		//$this->morphMany[Rule::TABLE] = [
-		//	Rule::class,
-		//	'name' => 'from',
-		//	'order' => Rule::SORT_ORDER . ' asc',
-		//];
+		$this->morphToMany[Rule::TABLE] = [
+			Rule::class,
+			'scope' => 'isApplied',
+			'table' => RuledSource::TABLE,
+			'otherKey' => $this->getForeignNames(Rule::class)['column'],
+			'name' => 'source',
+			'order' => $this->getSortName(Rule::class),
+		];
 		//
 		parent::__construct($attributes);
 	}

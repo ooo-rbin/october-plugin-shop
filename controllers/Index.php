@@ -2,25 +2,15 @@
 
 use Carbon\Carbon;
 use Backend\Widgets\Form;
-use Cms\Classes\MediaLibrary;
-use Illuminate\Database\Query\Builder;
-use October\Rain\Auth\Models\User;
 use RBIn\Shop\Classes\Controller;
 use RBIn\Shop\Enums\OrderByPayment;
 use RBIn\Shop\Enums\OrderByStatus;
-use RBIn\Shop\Models\Email;
+use RBIn\Shop\Classes\Email;
 use RBIn\Shop\Models\Order;
 use RBIn\Shop\Models\OrderedVariant;
 use RBIn\Shop\Traits\IndexController;
 use Request;
 use Input;
-use Redirect;
-use Flash;
-use Mail;
-use Markdown;
-use RainLab\Blog\Classes\TagProcessor;
-use Illuminate\Mail\Message;
-use Config;
 
 class Index extends Controller {
 
@@ -69,7 +59,7 @@ class Index extends Controller {
 				'total_payment' => 0
 			]);
 		}, $orders, array_keys($orders));
-		while(($ordersInTimeCount = count($ordersInTime)) < 6) {
+		while(($ordersInTimeCount = count($ordersInTime)) < 12) {
 			array_unshift($ordersInTime, [
 				'date' => Carbon::today()->modify("-${ordersInTimeCount} month")->format('d.m.Y'),
 				'total_cost' => 0,
@@ -77,39 +67,13 @@ class Index extends Controller {
 			]);
 		}
 		$this->vars['ordersInTime'] = $ordersInTime;
-		$this->vars['customer'] = Order::topCustomer()->toArray();
-		$this->vars['product'] = OrderedVariant::topVariant()->toArray();
+		$this->vars['customer'] = Order::topCustomer();
+		$this->vars['product'] = OrderedVariant::topVariant();
 		$config = $this->makeConfig('$/rbin/shop/models/email/fields.yaml');
 		$config->model = new Email();
 		$config->context = 'index';
 		$form = $this->makeWidget(Form::class, $config);
 		$form->bindToController();
-	}
-
-	public function sendMail() {
-		$group = intval(Input::get('recipients', 0));
-		if ($group == 0) {
-			$to = User::all(['email'])->lists('email');
-		} else {
-			$to = User::whereIn('id', function (Builder $query) use ($group) {
-				$query->select('user_id')->from('users_groups')->where('user_group_id', $group);
-			})->get(['email'])->lists('email');
-		}
-		if (empty($to)) {
-			Flash::success(trans('rbin.shop::lang.index.message.nothing'));
-		} else {
-			Mail::sendTo($to, 'rbin.shop::mail.message', [
-				'text' => TagProcessor::instance()->processTags(Markdown::parse(Input::get('message', '')), false),
-			], function (Message $message) {
-				$path = Config::get('filesystems.disks.local.root', storage_path()) . DIRECTORY_SEPARATOR . Config::get('cms.storage.media.folder', 'media');
-				$message->subject(Input::get('subject', ''));
-				foreach (Input::get('attachments', []) as $attachment) {
-					$message->attach($path . DIRECTORY_SEPARATOR . $attachment['type']);
-				}
-			});
-			Flash::success(trans('rbin.shop::lang.index.message.complete'));
-		}
-		return Redirect::refresh();
 	}
 
 }

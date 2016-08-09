@@ -1,51 +1,120 @@
-{% set cart = __SELF__.cart %}
+{% set cart = __SELF__.cart.rbin_shop_ordered_variants %}
+{% set total_cost = __SELF__.cart.total_cost %}
 {% set options = __SELF__.options %}
+{% set delivery = __SELF__.cart.rbin_shop_deliveries %}
+{% set payment = __SELF__.cart.rbin_shop_payments %}
+{% set validDeliveries = __SELF__.cart.validDeliveries %}
+{% set validPayments = __SELF__.cart.validPayments %}
+{% set delivery_cost = __SELF__.cart.delivery_cost %}
+{% set payment_cost = __SELF__.cart.payment_cost %}
+{% set customer = __SELF__.customer %}
 {% if cart.count > 0 %}
-	<table class="table table-striped table-bordered">
-		<thead>
-			<tr class="danger">
-				<th>{{ 'rbin.shop::lang.frontend.cart.product'|trans }}</th>
-				<th>{{ 'rbin.shop::lang.frontend.cart.amount'|trans }}</th>
-				<th>{{ 'rbin.shop::lang.frontend.cart.cost'|trans }}</th>
-				<th>{{ 'rbin.shop::lang.frontend.cart.summ'|trans }}</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for variant in cart %}
-				<tr>
-					<td title="{{ 'rbin.shop::lang.frontend.cart.options'|trans }}" data-hover="popover" title="{{ 'rbin.shop::lang.frontend.cart.options'|trans }}">
-						{{ form_ajax('onRemoveFromCart', { class: 'pull-left' }) }}
-							<input type="hidden" name="variant" value="{{ variant.variant_id }}">
-							<button class="btn btn-danger" type="submit" title="{{ 'rbin.shop::lang.forms.remove'|trans }}"><i class="fa fa-times" aria-hidden="true"></i></button>
-						{{ form_close() }}
-						<b style="margin-left: 3em; display: block;">{{ variant.title|escape }}</b>
-						<table class="table popover-content hidden">
-							{% for option in options[variant.product_id] %}
-								<tr>
-									<th class="text-right">{{ option.rbin_shop_features.title }}</th>
-									<td>{{ option.value }}</td>
-								</tr>
-							{% endfor %}
-						</table>
-					</td>
-					<td class="form-group">
-						{{ form_ajax('onChangeAmountInCart', { class: 'form-horizontal' }) }}
-							<input type="hidden" name="variant" value="{{ variant.variant_id }}">
-							<input class="form-control" type="number" step="1" min="1" name="amount" value="{{ variant.amount }}" onchange="jQuery(this.form).request()">
-						{{ form_close() }}
-					</td>
-					<td class="text-right">{{ 'rbin.shop::lang.forms.cent'|trans|format(variant.cost|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;'))|raw }}</td>
-					<td class="text-right">{{ 'rbin.shop::lang.forms.cent'|trans|format((variant.cost*variant.amount)|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;'))|raw }}</td>
+	<div class="table-responsive">
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr class="danger">
+					<th>{{ 'rbin.shop::lang.frontend.cart.product'|trans }}</th>
+					<th>{{ 'rbin.shop::lang.frontend.cart.amount'|trans }}</th>
+					<th>{{ 'rbin.shop::lang.frontend.cart.cost'|trans }}</th>
+					<th>{{ 'rbin.shop::lang.frontend.cart.summ'|trans }}</th>
 				</tr>
-			{% endfor %}
-		</tbody>
-		<tfoot>
-			<tr class="danger">
-				<th colspan="3" class="text-right">Итого</th>
-				<td class="text-right">{{ 'rbin.shop::lang.forms.cent'|trans|format(__SELF__.totalCost|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;'))|raw }}</td>
-			</tr>
-		</tfoot>
-	</table>
+			</thead>
+			<tbody>
+				{% for variant in cart %}
+					<tr>
+						<td title="{{ 'rbin.shop::lang.frontend.cart.options'|trans }}" data-hover="popover" title="{{ 'rbin.shop::lang.frontend.cart.options'|trans }}">
+							{{ form_ajax('onRemoveFromCart', { class: 'pull-left' }) }}
+								<input type="hidden" name="variant" value="{{ variant.variant_id }}">
+								<button class="btn btn-danger" type="submit" title="{{ 'rbin.shop::lang.forms.remove'|trans }}"><i class="fa fa-times" aria-hidden="true"></i></button>
+							{{ form_close() }}
+							<b style="margin-left: 3em; display: block;">{{ variant.title|escape }}</b>
+							<table class="table popover-content hidden">
+								{% for option in options[variant.product_id] %}
+									<tr>
+										<th class="text-right">{{ option.rbin_shop_features.title }}</th>
+										<td>{{ option.value }}</td>
+									</tr>
+								{% endfor %}
+							</table>
+						</td>
+						<td class="form-group">
+							{{ form_ajax('onChangeAmountInCart', { class: 'form-horizontal' }) }}
+								<input type="hidden" name="variant" value="{{ variant.variant_id }}">
+								<div class="input-group" style="max-width: 10em;">
+									<input class="form-control text-right" type="number" step="1" min="1" name="amount" value="{{ variant.amount }}" onchange="jQuery(this.form).request()" onkeyup="if (this.timeout) clearTimeout(this.timeout); this.timeout = setTimeout((function (self) { var $self = jQuery(self.form); return function () { $self.request(); }; })(this), 1000);">
+									<div class="input-group-addon">{{ variant.units }}</div>
+								</div>
+							{{ form_close() }}
+						</td>
+						<td>{{ 'rbin.shop::lang.forms.cent'|trans|format(variant.cost|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;'))|raw }}</td>
+						<td>{{ 'rbin.shop::lang.forms.cent'|trans|format((variant.cost*variant.amount)|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;'))|raw }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr class="danger">
+					<th colspan="3" class="text-right">{{ 'rbin.shop::lang.frontend.cart.name'|trans }}</th>
+					<td>{{ cart.total_cost }}{{ 'rbin.shop::lang.forms.cent'|trans|format(total_cost|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;'))|raw }}</td>
+				</tr>
+				{% if not validDeliveries.isEmpty %}
+					<tr>
+						<th class="text-right">{{ 'rbin.shop::lang.deliveries.label'|trans }}</th>
+						<td colspan="2">
+							{{ form_ajax('onChangeDelivery', { class: 'form-horizontal' }) }}
+								<select class="form-control" name="delivery" onchange="jQuery(this.form).request()">
+									{% for validDelivery in validDeliveries %}
+										<option value="{{ validDelivery.id }}"{% if validDelivery.id == delivery.id %} selected{% endif %}>
+											{{ validDelivery.title }}
+											{% if delivery.separately %}({{ 'rbin.shop::lang.frontend.cart.separately'|trans }}){% endif %}
+										</option>
+									{% endfor %}
+								</select>
+							{{ form_close() }}
+						</td>
+						{% if delivery_cost is null or delivery_cost == 0 %}
+							<td>{{ 'rbin.shop::lang.frontend.cart.menage'|trans }}</td>
+						{% else %}
+							<td>{{ 'rbin.shop::lang.forms.cent'|trans|format(delivery_cost|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;'))|raw }}</td>
+						{% endif %}
+					</tr>
+				{% endif %}
+				{% if not validPayments.isEmpty %}
+					<tr>
+						<th class="text-right">{{ 'rbin.shop::lang.payments.label'|trans }}</th>
+						<td colspan="2">
+							{{ form_ajax('onChangePayment', { class: 'form-horizontal' }) }}
+								<select class="form-control" name="payment" onchange="jQuery(this.form).request()">
+									{% for validPayment in validPayments %}
+										<option value="{{ validPayment.id }}"{% if validPayment.id == payment.id %} selected{% endif %}>
+											{{ validPayment.title }}
+											{% if payment.separately %}({{ 'rbin.shop::lang.frontend.cart.separately'|trans }}){% endif %}
+										</option>
+									{% endfor %}
+								</select>
+							{{ form_close() }}
+						</td>
+						{% if payment_cost is null or payment_cost == 0 %}
+							<td>{{ 'rbin.shop::lang.frontend.cart.menage'|trans }}</td>
+						{% else %}
+							<td>{{ 'rbin.shop::lang.forms.cent'|trans|format(payment_cost|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;'))|raw }}</td>
+						{% endif %}
+					</tr>
+				{% endif %}
+				<tr class="danger">
+					<th colspan="3" class="text-right">{{ 'rbin.shop::lang.frontend.cart.result'|trans }}</th>
+					<td>{{ cart.total_cost }}{{ 'rbin.shop::lang.forms.cent'|trans|format((total_cost+delivery_cost+payment_cost)|number_format(2, 'rbin.shop::lang.forms.currency'|trans, '&nbsp;'))|raw }}</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	{% if customer %}
+		{{ form_ajax('onCreateOrder') }}
+			<p class="form-group"><label for="cart_customer_info">{{ 'rbin.shop::lang.frontend.cart.info'|trans }}</label><textarea class="form-control" rows="10" id="cart_customer_info" name="customer_info">{{ cart.customer_info }}</textarea></p>
+			<p class="form-group text-right"><button type="submit" class="btn btn-danger">{{ 'rbin.shop::lang.frontend.cart.end'|trans }}</button></p>
+		{{ form_close() }}
+	{% else %}
+		<p>{{ 'rbin.shop::lang.frontend.cart.guest'|trans }}</p>
+	{% endif %}
 {% else %}
 	<p>{{ 'rbin.shop::lang.frontend.cart.empty'|trans }}</p>
 {% endif %}

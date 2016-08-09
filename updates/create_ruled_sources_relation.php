@@ -18,14 +18,14 @@ class CreateRuledSourcesRelation extends Migration {
 	 */
 	public function up() {
 		$this->down();
-		$this->createPolymorphicMoreToMoreRelation(Rule::class, 'sources', RuledSource::TABLE);
+		$this->createPolymorphicMoreToMoreRelation(Rule::class, 'source', RuledSource::TABLE);
 	}
 
 	/**
 	 * Удаление таблицы.
 	 */
 	public function down() {
-		$this->dropPolymorphicMoreToMoreRelation(Rule::class, 'sources', RuledSource::TABLE);
+		$this->dropPolymorphicMoreToMoreRelation(Rule::class, 'source', RuledSource::TABLE);
 	}
 
 }

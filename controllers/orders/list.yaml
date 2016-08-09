@@ -8,7 +8,7 @@ showSetup: true
 list: $/rbin/shop/models/order/columns.yaml
 filter: $/rbin/shop/models/order/filter.yaml
 defaultSort:
-    column: status
+    column: created_at
     direction: desc
 toolbar:
     buttons: list_toolbar

@@ -1,0 +1,5 @@
+title: rbin.shop::lang.rules.reorder
+nameFrom: title
+modelClass: RBIn\Shop\Models\Rule
+toolbar:
+    buttons: reorder_toolbar

@@ -3,6 +3,7 @@
 use RBIn\Shop\Classes\Model;
 use October\Rain\Database\Traits\Sortable;
 use RBIn\Shop\Enums\RuleByApplicability;
+use October\Rain\Database\Builder;
 
 /**
  * Тип свойства элемента каталога продукции.
@@ -18,14 +19,6 @@ class Rule extends Model {
 
 	public function getSortOrderAttribute() {
 		return $this->{static::SORT_ORDER};
-	}
-
-	public function getApplicabilityAttribute($value) {
-		return array_intersect(RuleByApplicability::getConstants(), explode(',', $value));
-	}
-
-	public function setApplicabilityAttribute(array $value) {
-		$this->attributes['applicability'] = implode(',', array_intersect(RuleByApplicability::getConstants(), $value));
 	}
 
 	public function __construct(array $attributes = []) {
@@ -45,11 +38,26 @@ class Rule extends Model {
 			'otherKey' => $this->getForeignNames(Order::class)['column'],
 			'order' => Order::CREATED_AT . ' desc',
 		];
+		$this->morphedByMany['source'] = [];
 		foreach (RuleByApplicability::getConstants() as $class) {
-			$this->morphedByMany[$class::TABLE] = [$class, 'name' => 'sources'];
+			$this->morphedByMany['source'][$class::TABLE] = [
+				$class,
+				'table' => RuledSource::TABLE,
+				'otherKey' => $this->getForeignNames(Rule::class)['column'],
+				'name' => 'sources',
+				'order' => $this->getSortName(Rule::class),
+			];
 		}
 		//
 		parent::__construct($attributes);
+	}
+
+	public function scopeIsApplied(Builder $query) {
+		return $query->where('show', '=', 1)->where('global', '<>', 1);
+	}
+
+	public function scopeIsGlobal(Builder $query) {
+		return $query->orderBy(static::SORT_ORDER)->where('global', '=', 1);
 	}
 
 }

@@ -29,17 +29,20 @@ class CreateOrderedVariantsTable extends Migration {
 			$table->engine = 'InnoDB';
 			// Колонки
 			$table->bigIncrements(OrderedVariant::KEY, 'primary');
+			$table->string('slug');
 			$table->string('title');
 			$table->unsignedBigInteger($orderColumnName);
 			$table->unsignedInteger($variantColumnName)->nullable();
 			$table->unsignedInteger($productColumnName)->nullable();
 			$table->unsignedInteger('amount');
+			$table->string('units');
 			$table->decimal('cost');
 			$table->integer('order')->nullable();
 			// Ключи
 			$table->foreign($orderColumnName, OrderedVariant::TABLE . '_ibfk_1')->references(Order::KEY)->on(Order::TABLE)->onUpdate('cascade')->onDelete('cascade');
 			$table->foreign($variantColumnName, OrderedVariant::TABLE . '_ibfk_2')->references(Variant::KEY)->on(Variant::TABLE)->onUpdate('cascade')->onDelete('set null');
 			$table->foreign($productColumnName, OrderedVariant::TABLE . '_ibfk_3')->references(Product::KEY)->on(Product::TABLE)->onUpdate('cascade')->onDelete('set null');
+			$table->unique([$productColumnName, 'slug'], 'unique_variant');
 		});
 	}
 

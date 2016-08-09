@@ -1,0 +1,32 @@
+<div data-control="toolbar">
+	<a
+		href="javascript:;"
+		data-control="popup"
+		data-size="huge"
+		data-handler="onRelationButtonCreate"
+		class="btn btn-sm btn-primary oc-icon-file">
+		<?= trans('rbin.shop::lang.forms.create'); ?>
+	</a>
+	<button
+		type="button"
+		class="btn btn-sm btn-danger oc-icon-trash-o"
+		onclick="$(this).data('request-data', {
+			checked: $('#<?= $this->relationGetId('view'); ?> .control-list').listWidget('getChecked')
+		})"
+		disabled="disabled"
+		data-request="onRelationButtonDelete"
+		data-request-confirm="<?= trans('rbin.shop::lang.forms.delete_confirm'); ?>"
+		data-trigger-action="enable"
+		data-trigger="#<?= $this->relationGetId('view'); ?> .control-list .list-checkbox input[type=checkbox]"
+		data-trigger-condition="checked"
+		data-stripe-load-indicator>
+		<?= trans('rbin.shop::lang.forms.delete_selected'); ?>
+	</button>
+	<?php if (isset($formModel->{$formModel::KEY})) : ?>
+		<a
+			href="<?= Backend::url("rbin/shop/ordered-rules/reorder/{$formModel->{$formModel::KEY}}"); ?>"
+			class="btn btn-sm btn-default oc-icon-sort">
+			<?= trans('rbin.shop::lang.rules.reorder'); ?>
+		</a>
+	<?php endif; ?>
+</div>

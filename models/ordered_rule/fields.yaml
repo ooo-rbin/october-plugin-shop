@@ -1,0 +1,23 @@
+fields:
+    rule_id:
+        label: rbin.shop::lang.rules.name
+        type: dropdown
+        span: left
+    title:
+        label: rbin.shop::lang.forms.title
+        type: text
+        span: right
+        required: true
+        dependsOn: rule_id
+    description:
+        label: rbin.shop::lang.forms.description
+        type: textarea
+        size: huge
+        dependsOn: rule_id
+    value:
+        label: rbin.shop::lang.forms.code
+        type: codeeditor
+        language: php
+        size: huge
+        required: true
+        dependsOn: rule_id

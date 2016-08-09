@@ -86,7 +86,6 @@ class Requisites extends Component {
 		if (isset($this->user) && isset($data)) {
 			$file = $this->user->rbin_shop_requisite_files()->where('file_name', 'like', $data->getClientOriginalName())->first();
 			$sum = $this->user->rbin_shop_requisite_files()->where('file_name', 'not like', $data->getFilename())->sum('file_size') + $data->getClientSize();
-			//dd($sum);
 			if ($sum > 1024 * 1024 * 4) {
 				$this->flash[] = [
 					'text' => sprintf('Невозможно загрузить %s. Недостаточно места.', $data->getClientOriginalName()),

@@ -16,6 +16,7 @@ jQuery(function ($) {
 			}
 		}
 	});
+
 	$(window).on('ajaxUpdate', function (event, context, data) {
 		var selector = (data.selector) ? $(data.selector) : false;
 		var message = (data.message) ? data.message : false;

@@ -1,0 +1,17 @@
+name: rbin.shop::lang.rules.label
+modelClass: RBIn\Shop\Models\Rule
+defaultRedirect: rbin/shop/rules
+form: $/rbin/shop/models/rule/fields.yaml
+create:
+    title: rbin.shop::lang.rules.create
+    redirect: rbin/shop/rules/update/:id
+    redirectClose: rbin/shop/rules
+    flashSave: rbin.shop::lang.forms.save_success
+update:
+    title: rbin.shop::lang.rules.update
+    redirect: rbin/shop/rules/update/:id
+    redirectClose: rbin/shop/rules
+    flashSave: rbin.shop::lang.forms.save_success
+    flashDelete: rbin.shop::lang.forms.delete_success
+preview:
+    title: rbin.shop::lang.rules.preview

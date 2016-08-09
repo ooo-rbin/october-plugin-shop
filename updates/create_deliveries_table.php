@@ -21,7 +21,6 @@ class CreateDeliveriesTable extends Migration {
 			// Колонки
 			$table->increments(Delivery::KEY, 'primary');
 			$table->boolean('show');
-			$table->unsignedInteger('priority');
 			$table->string('title');
 			$table->text('description');
 			$table->decimal('cost');

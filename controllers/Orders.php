@@ -3,11 +3,15 @@
 use RBIn\Shop\Classes\Controller;
 use RBIn\Shop\Enums\OrderByPayment;
 use RBIn\Shop\Enums\OrderByStatus;
+use RBIn\Shop\Models\Customer;
+use RBIn\Shop\Models\Order;
+use RBIn\Shop\Models\OrderedRule;
 use RBIn\Shop\Models\OrderedVariant;
 use RBIn\Shop\Traits\ListController;
 use RBIn\Shop\Traits\FormController;
 use RBIn\Shop\Traits\RelationController;
 use Illuminate\Database\Eloquent\Builder;
+use Redirect;
 
 class Orders extends Controller {
 
@@ -20,6 +24,19 @@ class Orders extends Controller {
 		$this->bootFormController();
 		$this->bootRelationController();
 		parent::__construct();
+	}
+
+	public function onTrash() {
+		$this->asExtension('ListController')->index_onDelete();
+		return Redirect::refresh();
+	}
+
+	public function listExtendQueryBefore(Builder $query) {
+		if (post('witchTrashed', false)) {
+			return $query->withTrashed();
+		} else {
+			return $query;
+		}
 	}
 
 	public function listExtendQuery(Builder $query)	{
@@ -55,6 +72,10 @@ class Orders extends Controller {
 
 	public function makeProductsPartial() {
 		return $this->relationRender(OrderedVariant::TABLE);
+	}
+
+	public function makeRulesPartial() {
+		return $this->relationRender(OrderedRule::TABLE);
 	}
 
 	public function formExtendQuery($query) {

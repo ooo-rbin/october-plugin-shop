@@ -25,4 +25,6 @@ abstract class Model extends ModelBase {
 	use ModelTrait;
 	use Validation;
 
+
+
 }

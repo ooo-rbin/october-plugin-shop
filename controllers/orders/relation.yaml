@@ -20,3 +20,25 @@ rbin_shop_ordered_variants:
         defaultSort:
             column: order
             direction: asc
+rbin_shop_ordered_rules:
+    label: ' '
+    deferredBinding: true
+    emptyMessage: rbin.shop::lang.forms.empty
+    view:
+        toolbarPartial: ordered_rules_toolbar
+        showSearch: true
+        showSorting: true
+        showCheckboxes: true
+        list: $/rbin/shop/models/ordered_rule/columns.yaml
+        form: $/rbin/shop/models/ordered_rule/fields.yaml
+        defaultSort:
+            column: order
+            direction: asc
+    manage:
+        name: rbin.shop::lang.rules.label
+        showSearch: true
+        showSorting: true
+        form: $/rbin/shop/models/ordered_rule/fields.yaml
+        defaultSort:
+            column: order
+            direction: asc

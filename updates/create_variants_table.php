@@ -26,12 +26,13 @@ class CreateVariantsTable extends Migration {
 			// Колонки
 			$table->increments(Variant::KEY, 'primary');
 			$table->unsignedInteger($productColumnName);
+			$table->string('slug');
 			$table->string('title');
 			$table->unsignedInteger('balance')->nullable();
 			$table->decimal('cost')->nullable();
 			$table->integer('order')->nullable();
 			// Ключи
-			$table->unique([$productColumnName, 'title'], 'unique_variant');
+			$table->unique([$productColumnName, 'slug'], 'unique_variant');
 			$table->foreign($productColumnName, Variant::TABLE . '_ibfk_1')->references(Product::KEY)->on(Product::TABLE)->onUpdate('cascade')->onDelete('cascade');
 		});
 	}

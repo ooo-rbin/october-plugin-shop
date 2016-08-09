@@ -28,13 +28,13 @@
 					</div>
 					<div class="scoreboard-item title-value">
 						<h4><?= trans('rbin.shop::lang.index.customer.title'); ?></h4>
-						<p class="oc-icon-user"><a href="<?= Backend::url("rainlab/user/users/update/${customer['id']}"); ?>"><?= e($customer['name']); ?></a> [<a href="mailto:<?= $customer['email']; ?>"><?= $customer['email']; ?></a>]</p>
-						<p class="description"><?= sprintf(trans('rbin.shop::lang.index.customer.description'), sprintf(trans('rbin.shop::lang.forms.cent'), number_format(doubleval($customer['sum']), 2, trans('rbin.shop::lang.forms.currency'), '&nbsp;'))); ?></p>
+						<p class="oc-icon-user"><a href="<?= Backend::url("rainlab/user/users/update/{$customer->id}"); ?>"><?= e($customer->name); ?></a> [<a href="mailto:<?= $customer->email; ?>"><?= $customer->email; ?></a>]</p>
+						<p class="description"><?= sprintf(trans('rbin.shop::lang.index.customer.description'), sprintf(trans('rbin.shop::lang.forms.cent'), number_format(doubleval($customer->sum), 2, trans('rbin.shop::lang.forms.currency'), '&nbsp;'))); ?></p>
 					</div>
 					<div class="scoreboard-item title-value">
 						<h4><?= trans('rbin.shop::lang.index.product.title'); ?></h4>
-						<p class="oc-icon-cart-arrow-down"><a href="<?= Backend::url("rbin/shop/products/update/${product['product_id']}"); ?>"><?= e($product['title']); ?></a></p>
-						<p class="description"><?= sprintf(trans('rbin.shop::lang.index.product.description'), intval($product['sum'])); ?></p>
+						<p class="oc-icon-cart-arrow-down"><a href="<?= Backend::url("rbin/shop/products/update/{$product->product_id}"); ?>"><?= e($product->title); ?></a></p>
+						<p class="description"><?= sprintf(trans('rbin.shop::lang.index.product.description'), intval($product->sum)); ?></p>
 					</div>
 				</div>
 			</div>

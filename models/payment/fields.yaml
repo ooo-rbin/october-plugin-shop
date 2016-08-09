@@ -19,11 +19,6 @@ tabs:
             type: markdown
             mode: split
             stretch: true
-        rbin_shop_rules:
-            tab: rbin.shop::lang.rules.label
-            type: rules
-            size: huge
-            stretch: true
 secondaryTabs:
     fields:
         picture:
@@ -38,3 +33,18 @@ secondaryTabs:
             type: checkbox
             required: false
             default: true
+        separately:
+            tab: rbin.shop::lang.settings.label
+            label: rbin.shop::lang.forms.separately
+            commentAbove: rbin.shop::lang.forms.separately_comment
+            type: checkbox
+            required: false
+            default: false
+        rbin_shop_rules:
+            tab: rbin.shop::lang.settings.label
+            label: rbin.shop::lang.rules.label
+            commentAbove: rbin.shop::lang.rules.comment
+            type: relation
+            nameFrom: title
+            descriptionFrom: description
+            emptyOption: rbin.shop::lang.forms.empty

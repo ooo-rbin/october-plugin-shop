@@ -8,6 +8,9 @@ columns:
     title:
         label: rbin.shop::lang.products.name
         type: text
+    units:
+        label: rbin.shop::lang.forms.units
+        type: text
     annotation:
         label: rbin.shop::lang.forms.annotation
         type: text

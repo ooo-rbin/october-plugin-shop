@@ -16,78 +16,78 @@ fields:
 tabs:
     stretch: true
     fields:
-        #payment_section:
-        #    tab: rbin.shop::lang.orders.calc
-        #    label: rbin.shop::lang.orders.payment.section
-        #    type: section
-        #    span: left
-        #delivery_section:
-        #    tab: rbin.shop::lang.orders.calc
-        #    label: rbin.shop::lang.orders.delivery.section
-        #    type: section
-        #    span: right
-        #payment_id:
-        #    tab: rbin.shop::lang.orders.calc
-        #    label: rbin.shop::lang.orders.payment.id
-        #    type: dropdown
-        #    span: left
-        #delivery_id:
-        #    tab: rbin.shop::lang.orders.calc
-        #    label: rbin.shop::lang.orders.delivery.id
-        #    type: dropdown
-        #    span: right
-        #payment_cost:
-        #    tab: rbin.shop::lang.orders.calc
-        #    label: rbin.shop::lang.orders.payment.cost
-        #    comment: rbin.shop::lang.forms.leave
-        #    type: number
-        #    span: left
-        #    attributes:
-        #        min: 0
-        #delivery_cost:
-        #    tab: rbin.shop::lang.orders.calc
-        #    label: rbin.shop::lang.orders.delivery.cost
-        #    comment: rbin.shop::lang.forms.leave
-        #    type: number
-        #    span: right
-        #    attributes:
-        #        min: 0
-        #payment_separately:
-        #    tab: rbin.shop::lang.orders.calc
-        #    label: rbin.shop::lang.orders.payment.separately
-        #    type: checkbox
-        #    span: left
-        #delivery_separately:
-        #    tab: rbin.shop::lang.orders.calc
-        #    label: rbin.shop::lang.orders.delivery.separately
-        #    type: checkbox
-        #    span: right
-        #payment_payment:
-        #    tab: rbin.shop::lang.orders.calc
-        #    label: rbin.shop::lang.orders.payment.payment
-        #    type: number
-        #    span: left
-        #    attributes:
-        #        min: 0
-        #    trigger:
-        #        action: show
-        #        field: payment_separately
-        #        condition: checked
-        #delivery_payment:
-        #    tab: rbin.shop::lang.orders.calc
-        #    label: rbin.shop::lang.orders.delivery.payment
-        #    type: number
-        #    span: right
-        #    attributes:
-        #        min: 0
-        #    trigger:
-        #        action: show
-        #        field: delivery_separately
-        #        condition: checked
-        #total_section:
-        #    tab: rbin.shop::lang.orders.calc
-        #    label: rbin.shop::lang.orders.total.section
-        #    type: section
+        payment_section:
+            tab: rbin.shop::lang.orders.calc
+            label: rbin.shop::lang.orders.payment.section
+            type: section
+            span: left
+        delivery_section:
+            tab: rbin.shop::lang.orders.calc
+            label: rbin.shop::lang.orders.delivery.section
+            type: section
+            span: right
+        payment_id:
+            tab: rbin.shop::lang.orders.calc
+            label: rbin.shop::lang.orders.payment.id
+            type: dropdown
+            span: left
+        delivery_id:
+            tab: rbin.shop::lang.orders.calc
+            label: rbin.shop::lang.orders.delivery.id
+            type: dropdown
+            span: right
+        payment_cost:
+            tab: rbin.shop::lang.orders.calc
+            label: rbin.shop::lang.orders.payment.cost
+            comment: rbin.shop::lang.forms.leave
+            type: number
+            span: left
+            attributes:
+                min: 0
+        delivery_cost:
+            tab: rbin.shop::lang.orders.calc
+            label: rbin.shop::lang.orders.delivery.cost
+            comment: rbin.shop::lang.forms.leave
+            type: number
+            span: right
+            attributes:
+                min: 0
+        payment_separately:
+            tab: rbin.shop::lang.orders.calc
+            label: rbin.shop::lang.orders.payment.separately
+            type: checkbox
+            span: left
+        delivery_separately:
+            tab: rbin.shop::lang.orders.calc
+            label: rbin.shop::lang.orders.delivery.separately
+            type: checkbox
+            span: right
+        payment_payment:
+            tab: rbin.shop::lang.orders.calc
+            label: rbin.shop::lang.orders.payment.payment
+            type: number
+            span: left
+            attributes:
+                min: 0
+            trigger:
+                action: show
+                field: payment_separately
+                condition: checked
+        delivery_payment:
+            tab: rbin.shop::lang.orders.calc
+            label: rbin.shop::lang.orders.delivery.payment
+            type: number
+            span: right
+            attributes:
+                min: 0
+            trigger:
+                action: show
+                field: delivery_separately
+                condition: checked
+        total_section:
+            tab: rbin.shop::lang.orders.calc
+            label: rbin.shop::lang.orders.total.section
+            type: section
         total_cost:
             tab: rbin.shop::lang.orders.calc
             label: rbin.shop::lang.orders.total.cost
@@ -112,6 +112,11 @@ tabs:
             tab: rbin.shop::lang.products.label
             type: partial
             path: products
+            stretch: true
+        rbin_shop_ordered_rules:
+            tab: rbin.shop::lang.rules.label
+            type: partial
+            path: rules
             stretch: true
         rbin_shop_order_files:
             tab: rbin.shop::lang.orders.documents

@@ -24,6 +24,7 @@ class CreateProductsTable extends Migration {
 			$table->boolean('show');
 			$table->boolean('featured');
 			$table->string('title');
+			$table->string('units');
 			$table->text('annotation');
 			$table->text('description');
 			$table->string('keywords');

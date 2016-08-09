@@ -1,0 +1,25 @@
+columns:
+    order:
+        label: rbin.shop::lang.forms.order
+        type: number
+        invisible: true
+    show:
+        label: rbin.shop::lang.forms.show
+        type: partial
+        path: $/rbin/shop/partials/_lamp.htm
+        clickable: false
+        cssClass: lamp
+        width: 200px
+    global:
+        label: rbin.shop::lang.rules.global
+        type: partial
+        path: $/rbin/shop/partials/_lamp.htm
+        clickable: false
+        cssClass: lamp
+        width: 200px
+    title:
+        label: rbin.shop::lang.forms.title
+        serchable: true
+    description:
+        label: rbin.shop::lang.forms.description
+        serchable: true

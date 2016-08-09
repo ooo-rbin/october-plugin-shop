@@ -30,10 +30,11 @@ class CreateOrderedRulesTable extends Migration {
 			$table->unsignedBigInteger($orderColumnName);
 			$table->unsignedInteger($ruleColumnName)->nullable();
 			$table->string('title');
+			$table->text('description');
 			$table->text('value');
 			$table->integer('order')->nullable();
 			// Ключи
-			$table->unique('title', 'unique_ordered_rule');
+			$table->unique([$orderColumnName, 'title'], 'unique_ordered_rule');
 			$table->foreign($orderColumnName, OrderedRule::TABLE . '_ibfk_1')->references(Order::KEY)->on(Order::TABLE)->onUpdate('cascade')->onDelete('cascade');
 			$table->foreign($ruleColumnName, OrderedRule::TABLE . '_ibfk_2')->references(Rule::KEY)->on(Rule::TABLE)->onUpdate('cascade')->onDelete('set null');
 		});

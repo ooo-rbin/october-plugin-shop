@@ -36,6 +36,7 @@ class Product extends Model {
 			'slug' => 'required|string|between:1,255|unique:' . static::TABLE,
 			'show' => 'boolean',
 			'title' => 'required|string|between:1,255|unique:' . static::TABLE,
+			'units' => 'string',
 			'annotation' => 'string',
 			'description' => 'string',
 			'keywords' => 'string|between:1,255',
@@ -73,10 +74,12 @@ class Product extends Model {
 			'otherKey' => $this->getForeignNames(Category::class)['column'],
 			'order' => $this->getSortName(Category::class, Category::NEST_LEFT),
 		];
-		$this->belongsTo[Rule::TABLE] = [
+		$this->morphToMany[Rule::TABLE] = [
 			Rule::class,
-			'key' => $this->getForeignNames(Rule::class)['column'],
-			'otherKey' => Rule::KEY,
+			'scope' => 'isApplied',
+			'table' => RuledSource::TABLE,
+			'otherKey' => $this->getForeignNames(Rule::class)['column'],
+			'name' => 'source',
 			'order' => $this->getSortName(Rule::class),
 		];
 		//
@@ -87,12 +90,14 @@ class Product extends Model {
 		'slug',
 		'show',
 		'title',
+		'units',
 		'annotation',
 		'description',
 		'keywords',
 		'meta_title',
 		'meta_description',
 		'categories',
+		'variant_slug',
 		'variant_title',
 		'variant_balance',
 		'variant_cost',
@@ -109,9 +114,18 @@ class Product extends Model {
 		$this->categories = array_filter(array_map('trim', explode(',', $categories)));
 	}
 
+	protected $variant_slug = null;
 	protected $variant_title = null;
 	protected $variant_balance = null;
 	protected $variant_cost = null;
+
+	public function setVariantSlugAttribute($variant_slug) {
+		$this->variant_slug = trim($variant_slug);
+	}
+
+	public function getVariantSlugAttribute() {
+		return $this->variant_slug;
+	}
 
 	public function setVariantTitleAttribute($variant_title) {
 		$this->variant_title = trim($variant_title);
@@ -163,16 +177,18 @@ class Product extends Model {
 			}, $this->categories)));
 		}
 		$this->categories = null;
-		if (isset($this->variant_title)) {
-			$variant = $this->{Variant::TABLE}()->where('title', 'like', $this->variant_title)->first();
+		if (isset($this->variant_slug)) {
+			$variant = $this->{Variant::TABLE}()->where('slug', 'like', $this->variant_slug)->first();
 			if (is_null($variant)) {
 				$variant = new Variant();
-				$variant->title = $this->variant_title;
+				$variant->slug = $this->variant_slug;
 			}
+			$variant->title = $this->variant_title;
 			$variant->balance = $this->variant_balance;
 			$variant->cost = $this->variant_cost;
 			$this->{Variant::TABLE}()->save($variant);
 		}
+		$this->variant_slug = null;
 		$this->variant_title = null;
 		$this->variant_balance = null;
 		$this->variant_cost = null;
@@ -299,11 +315,15 @@ class Product extends Model {
 			});
 		}
 		$product_id = $this->getJoinName(static::class);
-		if ($category !== null) {
+		$cp_categoryId = $this->getJoinName(CategorizedProduct::class, Category::class);
+		$cp_productId = $this->getJoinName(CategorizedProduct::class, static::class);
+		if (!empty($filters['categories']) && is_array($filters['categories'])) {
+			$categories = $filters['categories'];
+			$query->leftJoin(CategorizedProduct::TABLE, $cp_productId, '=', $product_id);
+			$query->whereIn($cp_categoryId, $categories);
+		} elseif ($category !== null) {
 			$category = Category::find($category);
 			$categories = $category->getAllChildrenAndSelf()->lists('id');
-			$cp_categoryId = $this->getJoinName(CategorizedProduct::class, Category::class);
-			$cp_productId = $this->getJoinName(CategorizedProduct::class, static::class);
 			$query->leftJoin(CategorizedProduct::TABLE, $cp_productId, '=', $product_id);
 			$query->whereIn($cp_categoryId, $categories);
 		}
@@ -313,7 +333,7 @@ class Product extends Model {
 			$options_featureId = $this->getJoinName(Option::class, Feature::class);
 			$options_value = $this->getColumnName(Option::class, 'value');
 			foreach ($filters as $filter => $restriction) {
-				if ($filter != 'products') {
+				if ($filter != 'products' && $filter != 'categories') {
 					$query->where(function (Builder $query) use ($filter, $restriction, $options_featureId, $options_value) {
 						foreach ($restriction as $value) {
 							$query->orWhere(function (Builder $query) use ($filter, $value, $options_featureId, $options_value) {

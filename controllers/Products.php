@@ -82,4 +82,8 @@ class Products extends Controller {
 		return $this->relationRender('rbin_shop_options');
 	}
 
+	public function makeRulesPartial() {
+		return $this->relationRender('rbin_shop_rules');
+	}
+
 }

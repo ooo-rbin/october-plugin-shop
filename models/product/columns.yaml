@@ -1,4 +1,8 @@
 columns:
+    order:
+        label: rbin.shop::lang.forms.order
+        type: number
+        invisible: true
     show:
         label: rbin.shop::lang.forms.show
         type: partial

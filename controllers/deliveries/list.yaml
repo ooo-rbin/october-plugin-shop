@@ -6,6 +6,9 @@ showSorting: true
 showCheckboxes: true
 showSetup: true
 list: $/rbin/shop/models/delivery/columns.yaml
+defaultSort:
+    column: order
+    direction: asc
 toolbar:
     buttons: list_toolbar
     search:

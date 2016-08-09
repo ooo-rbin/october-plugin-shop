@@ -13,12 +13,12 @@ use System\Classes\PluginBase;
 use RainLab\User\Models\User;
 use Backend\Widgets\Filter;
 use RBIn\Shop\Controllers\Products;
-use RBIn\Shop\FormWidgets\Rules;
 use RBIn\Shop\Models\Feature;
 use RBIn\Shop\Models\Option;
 use RBIn\Shop\Models\Customer;
 use RBIn\Shop\Models\Order;
-//use RBIn\Shop\Models\Rule;
+use RBIn\Shop\Models\Rule;
+use RBIn\Shop\Models\RuledSource;
 use RBIn\Shop\Components\Cart as CartComponent;
 use RBIn\Shop\Components\Products as ProductsComponent;
 use RBIn\Shop\Components\Orders as OrdersComponent;
@@ -66,26 +66,26 @@ class Plugin extends PluginBase {
 		return [
 			///////////////////////////////////////////////////////////////////////////////////////////////// Настройки
 			// Способы доставки
-			//'rbin.shop.deliveries.access' => [
-			//	'tab' => 'rbin.shop::lang.name',
-			//	'label' => 'rbin.shop::lang.deliveries.label',
-			//],
+			'rbin.shop.deliveries.access' => [
+				'tab' => 'rbin.shop::lang.name',
+				'label' => 'rbin.shop::lang.deliveries.label',
+			],
 			// Способы оплаты
-			//'rbin.shop.payments.access' => [
-			//	'tab' => 'rbin.shop::lang.name',
-			//	'label' => 'rbin.shop::lang.payments.label',
-			//],
+			'rbin.shop.payments.access' => [
+				'tab' => 'rbin.shop::lang.name',
+				'label' => 'rbin.shop::lang.payments.label',
+			],
 			// Настройки
-			//'rbin.shop.settings.access' => [
-			//	'tab' => 'rbin.shop::lang.name',
-			//	'label' => 'rbin.shop::lang.settings.label',
-			//],
+			'rbin.shop.settings.access' => [
+				'tab' => 'rbin.shop::lang.name',
+				'label' => 'rbin.shop::lang.settings.label',
+			],
 			////////////////////////////////////////////////////////////////////////////////////////////// Заказ online
 			// Правила заказов
-			//'rbin.shop.rules.access' => [
-			//	'tab' => 'rbin.shop::lang.name',
-			//	'label' => 'rbin.shop::lang.rules.label',
-			//],
+			'rbin.shop.rules.access' => [
+				'tab' => 'rbin.shop::lang.name',
+				'label' => 'rbin.shop::lang.rules.label',
+			],
 			// Заказы
 			'rbin.shop.orders.access' => [
 				'tab' => 'rbin.shop::lang.name',
@@ -179,25 +179,25 @@ class Plugin extends PluginBase {
 						'permissions' => ['rbin.shop.features.*'],
 						'attributes' => ['data-class' => 'latest-in-group'],
 					],
-					//'deliveries' => [
-					//	'label' => 'rbin.shop::lang.deliveries.label',
-					//	'icon' => 'icon-truck',
-					//	'url' => Backend::url('rbin/shop/deliveries'),
-					//	'permissions' => ['rbin.shop.deliveries.*'],
-					//],
-					//'payments' => [
-					//	'label' => 'rbin.shop::lang.payments.label',
-					//	'icon' => 'icon-money',
-					//	'url' => Backend::url('rbin/shop/payments'),
-					//	'permissions' => ['rbin.shop.payments.*'],
-					//],
-					//'rules' => [
-					//	'label' => 'rbin.shop::lang.rules.label',
-					//	'icon' => 'icon-cogs',
-					//	'url' => Backend::url('rbin/shop/rules'),
-					//	'permissions' => ['rbin.shop.rules.*'],
-					//	'attributes' => ['data-class' => 'latest-in-group'],
-					//],
+					'deliveries' => [
+						'label' => 'rbin.shop::lang.deliveries.label',
+						'icon' => 'icon-truck',
+						'url' => Backend::url('rbin/shop/deliveries'),
+						'permissions' => ['rbin.shop.deliveries.*'],
+					],
+					'payments' => [
+						'label' => 'rbin.shop::lang.payments.label',
+						'icon' => 'icon-money',
+						'url' => Backend::url('rbin/shop/payments'),
+						'permissions' => ['rbin.shop.payments.*'],
+						'attributes' => ['data-class' => 'latest-in-group'],
+					],
+					'rules' => [
+						'label' => 'rbin.shop::lang.rules.label',
+						'icon' => 'icon-cogs',
+						'url' => Backend::url('rbin/shop/rules'),
+						'permissions' => ['rbin.shop.rules.*'],
+					],
 					'settings' => [
 						'label' => 'rbin.shop::lang.settings.label',
 						'icon' => 'icon-wrench',
@@ -205,15 +205,6 @@ class Plugin extends PluginBase {
 						'permissions' => ['rbin.shop.settings'],
 					],
 				],
-			],
-		];
-	}
-
-	public function registerFormWidgets() {
-		return [
-			Rules::class => [
-				'label' => 'rbin.shop::lang.rules.label',
-				'code'  => Rules::CODE,
 			],
 		];
 	}
@@ -257,6 +248,8 @@ class Plugin extends PluginBase {
 	protected function extendUser(User $model) {
 		$customerIndexName = str_replace('\\', '', snake_case(class_basename(Customer::class)));
 		$customerColumnName = implode('_', [$customerIndexName, Customer::KEY]);
+		$ruleIndexName = str_replace('\\', '', snake_case(class_basename(Rule::class)));
+		$ruleColumnName = implode('_', [$ruleIndexName, Rule::KEY]);
 		$model->hasMany[Order::TABLE] = [
 			Order::class,
 			'key' => $customerColumnName,
@@ -272,10 +265,14 @@ class Plugin extends PluginBase {
 			File::class,
 			'order' => 'sort_order',
 		];
-		//$model->morphMany[Rule::TABLE] = [
-		//	Rule::class,
-		//	'name' => 'from'
-		//];
+		$model->morphToMany[Rule::TABLE] = [
+			Rule::class,
+			'scope' => 'isApplied',
+			'table' => RuledSource::TABLE,
+			'otherKey' => $ruleColumnName,
+			'name' => 'source',
+			'order' => implode(' ', [Rule::SORT_ORDER, 'asc']),
+		];
 	}
 
 	protected function extendUsers(Users $controller) {
@@ -303,6 +300,17 @@ class Plugin extends PluginBase {
 					'prompt' => 'rbin.shop::lang.forms.add',
 				],
 			], 'primary');
+			$widget->addFields([
+				Rule::TABLE => [
+					//'tab' => 'rbin.shop::lang.settings.requisites.name',
+					'label' => 'rbin.shop::lang.rules.label',
+					'commentAbove' => 'rbin.shop::lang.rules.comment',
+					'type' => 'relation',
+					'nameFrom' => 'title',
+					'descriptionFrom' => 'description',
+					'emptyOption' => 'rbin.shop::lang.forms.empty',
+				],
+			], 'secondary');
 		}
 	}
 

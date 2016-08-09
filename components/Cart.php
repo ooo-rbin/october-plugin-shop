@@ -5,10 +5,12 @@ use Auth;
 use RBIn\Shop\Classes\Component;
 use Cms\Classes\Page;
 use RBIn\Shop\Models\Customer;
+use RBIn\Shop\Models\Delivery;
 use RBIn\Shop\Models\Feature;
 use RBIn\Shop\Models\Option;
 use RBIn\Shop\Models\Order;
 use RBIn\Shop\Models\OrderedVariant;
+use RBIn\Shop\Models\Payment;
 use Session;
 use Input;
 use Redirect;
@@ -22,11 +24,10 @@ class Cart extends Component {
 	public $url;
 	public $session;
 	public $cart;
-	public $totalCost;
 	public $options;
 	public $customer;
 	public $order;
-	public $message = '';
+	public $customer_info = '';
 
 	public function componentDetails() {
 		return [
@@ -66,7 +67,7 @@ class Cart extends Component {
 				'title'       => 'rbin.shop::lang.frontend.cart.page.title',
 				'description' => 'rbin.shop::lang.frontend.cart.page.description',
 				'type'        => 'dropdown',
-				'default'     => 'store-cart',
+				'default'     => 'store-order',
 				'group'       => 'rbin.shop::lang.forms.links',
 			],
 		];
@@ -93,15 +94,23 @@ class Cart extends Component {
 	public function onChangeAmountInCart() {
 		$id = intval(Input::get('variant'));
 		$amount = intval(Input::get('amount'));
-		if ($this->cart->has($id)) {
-			$this->cart[$id]->amount = $amount;
-			if ($this->cart[$id]->amount > 0) {
+		$variant = $this->cart->{OrderedVariant::TABLE}->where('variant_id', $id)->first();
+		if (!is_null($variant)) {
+			if ($amount > 0) {
+				$variant->amount = $amount;
 				$this->save();
 				return [
+					'icon' => 'check',
+					'message' => trans('rbin.shop::lang.frontend.cart.changed'),
 					$this->summary => $this->renderPartial('@summary'),
+					'selector' => $this->informer,
+					$this->informer => $this->renderPartial('@informer'),
 				];
 			} else {
-				$this->cart->forget($id);
+				$variant_keys = $this->cart->{OrderedVariant::TABLE}->where('variant_id', $id)->keys();
+				foreach ($variant_keys as $key) {
+					$this->cart->{OrderedVariant::TABLE}->forget($key);
+				}
 				$this->save();
 				return [
 					'icon' => 'check',
@@ -118,8 +127,11 @@ class Cart extends Component {
 
 	public function onRemoveFromCart() {
 		$id = intval(Input::get('variant'));
-		if ($this->cart->has($id)) {
-			$this->cart->forget($id);
+		$variant_keys = $this->cart->{OrderedVariant::TABLE}->where('variant_id', $id)->keys();
+		if (!empty($variant_keys)) {
+			foreach ($variant_keys as $key) {
+				$this->cart->{OrderedVariant::TABLE}->forget($key);
+			}
 			$this->save();
 			return [
 				'icon' => 'check',
@@ -135,14 +147,15 @@ class Cart extends Component {
 
 	public function onAddToCart() {
 		$id = intval(Input::get('variant'));
-		if (!$this->cart->has($id)) {
+		$variant = $this->cart->{OrderedVariant::TABLE}->where('variant_id', $id)->first();
+		if (is_null($variant)) {
 			$variant = OrderedVariant::fromVariantId($id);
 			if (is_null($variant)) {
 				throw new ApplicationException(trans('rbin.shop::lang.frontend.cart.miss'));
 			}
-			$this->cart->put($variant->variant_id, $variant);
+			$this->cart->{OrderedVariant::TABLE}->push($variant);
 		}
-		$this->cart[$id]->amount += 1;
+		$variant->amount += 1;
 		$this->save();
 		return [
 			'icon' => 'check',
@@ -166,52 +179,66 @@ class Cart extends Component {
 		$this->page = $this->property('page');
 		$this->order = $this->property('order');
 		$this->url = $this->controller->pageUrl($this->page);
-		$this->cart = collect(array_map(function ($data) {
-			return new OrderedVariant((array) $data);
-		}, json_decode(Session::get($this->session, '[]'), true)));
-		$this->save();
 		$this->customer = Auth::getUser();
-	}
-
-	protected function save() {
-		$this->cart = $this->cart->keyBy('variant_id');
-		Session::set($this->session, $this->cart->toJson(JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
-		$this->calc();
-		$this->options = Option::whereIn('product_id', $this->cart->lists('product_id'))->orderBy(Option::SORT_ORDER)->with([Feature::TABLE => function (BelongsTo $query) {
+		$this->cart = new Order(json_decode(Session::get($this->session, '[]'), true));
+		if (isset($this->customer)) {
+			$this->cart->customer_id = $this->customer->{Customer::KEY};
+		} else {
+			$this->cart->customer_id = null;
+		}
+		$this->save();
+		$this->options = Option::whereIn('product_id', $this->cart->{OrderedVariant::TABLE}->lists('product_id'))->orderBy(Option::SORT_ORDER)->with([Feature::TABLE => function (BelongsTo $query) {
 			return $query->where('show', '=', 1)->orderBy(Feature::SORT_ORDER);
 		}])->get()->groupBy('product_id');
 	}
 
-	protected function calc() {
-		$this->totalCost = $this->cart->reduce(function ($carry, $item) {
-			return $carry + ($item->amount * $item->cost);
-		}, 0);
+	public function onChangeDelivery() {
+		$delivery = $this->cart->validDeliveries->where(Delivery::KEY, intval(Input::get('delivery_id', 0)))->first();
+		if (isset($delivery)) {
+			$this->cart->delivery_id = $delivery->{Delivery::KEY};
+		}
+		$this->save();
+		return [
+			'icon' => 'check',
+			'message' => trans('rbin.shop::lang.frontend.cart.changed'),
+			$this->summary => $this->renderPartial('@summary'),
+			'selector' => $this->informer,
+			$this->informer => $this->renderPartial('@informer'),
+		];
+	}
+
+	public function onChangePayment() {
+		$payment = $this->cart->validPayments->where(Payment::KEY, intval(Input::get('payment_id', 0)))->first();
+		if (isset($payment)) {
+			$this->cart->payment_id = $payment->{Payment::KEY};
+		}
+		$this->save();
+		return [
+			'icon' => 'check',
+			'message' => trans('rbin.shop::lang.frontend.cart.changed'),
+			$this->summary => $this->renderPartial('@summary'),
+			'selector' => $this->informer,
+			$this->informer => $this->renderPartial('@informer'),
+		];
+	}
+
+	protected function save() {
+		$this->cart->callRules();
+		Session::set($this->session, $this->cart->toJson(JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 	}
 
 	public function onCreateOrder() {
-
-		if (is_null($this->cart->isEmpty())) {
+		if (is_null($this->cart->{OrderedVariant::TABLE}->isEmpty())) {
 			throw new ApplicationException(trans('rbin.shop::lang.frontend.cart.empty'));
 		}
 		if (is_null($this->customer)) {
 			throw new ApplicationException(trans('rbin.shop::lang.frontend.cart.guest'));
 		}
-		$order = new Order();
-		$order->slug = uniqid();
-		$order->status = 'expects';
-		$order->payment = 'expects';
-		$order->customer_info = strval(Input::get('message'));
-		$order->customer_id = $this->customer->{Customer::KEY};
-		$order->payment_id = intval(Input::get('payment'));
-		$order->delivery_id = intval(Input::get('delivery'));
-		$order->message = $this->message;
-		$order->recall = true;
-		$order->save();
-		$order->{OrderedVariant::TABLE}()->saveMany($this->cart->all());
-		// TODO send emails
+		$this->cart->customer_info = Input::get('customer_info', '');
+		$this->cart->save();
 		Session::set($this->session, '[]');
 		return Redirect::to($this->controller->pageUrl($this->order, [
-			'slug' => $order->slug,
+			'slug' => $this->cart->slug,
 		]));
 	}
 

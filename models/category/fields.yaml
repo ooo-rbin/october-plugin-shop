@@ -36,11 +36,6 @@ tabs:
             type: partial
             path: features
             stretch: true
-        #rbin_shop_rules:
-        #    tab: rbin.shop::lang.rules.label
-        #    type: rules
-        #    size: huge
-        #    stretch: true
 secondaryTabs:
     fields:
         picture:
@@ -55,6 +50,14 @@ secondaryTabs:
             type: checkbox
             required: false
             default: true
+        rbin_shop_rules:
+            tab: rbin.shop::lang.settings.label
+            label: rbin.shop::lang.rules.label
+            commentAbove: rbin.shop::lang.rules.comment
+            type: relation
+            nameFrom: title
+            descriptionFrom: description
+            emptyOption: rbin.shop::lang.forms.empty
         meta_title:
             tab: rbin.shop::lang.forms.meta
             label: rbin.shop::lang.forms.meta_title
